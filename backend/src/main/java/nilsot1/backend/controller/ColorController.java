@@ -1,26 +1,22 @@
-package nilsot1.backend.Controller;
+package nilsot1.backend.controller;
 
 
+import lombok.Data;
+import nilsot1.backend.service.ColorService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.reactive.function.client.WebClient;
 
 @RestController
 @RequestMapping("/api")
+@Data
 public class ColorController {
+
+    private final ColorService service;
 
     @PostMapping("/getColors")
     public String getColors(@RequestBody String requestBody) {
-
-        WebClient webclient = WebClient.create();
-
-        return webclient.post()
-                .uri("http://colormind.io/api/")
-                .bodyValue(requestBody)
-                .retrieve()
-                .bodyToMono(String.class)
-                .block();
+        return service.getColors(requestBody);
     }
 }
