@@ -7,7 +7,6 @@ export default function ColorPalette() {
 
     const [data, setData] = useState<ColorPaletteType>([])
 
-
     function getRandomColors(): void {
 
         const requestBody: { model: string } = {
@@ -22,11 +21,9 @@ export default function ColorPalette() {
 
     }
 
-    console.log(data)
-
     return (
         <>
-            <button onClick={getRandomColors}>Post</button>
+            <button onClick={getRandomColors}>Get random Colors</button>
             {data.map((color:SingleColor, index:number) => (
                 <div
                     key={index}
