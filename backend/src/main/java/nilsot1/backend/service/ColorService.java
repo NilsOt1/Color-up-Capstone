@@ -8,17 +8,22 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Service
 public class ColorService {
 
-    @Value("${colormind.base.url}")
-    private String baseUrl;
-    public String getColors(@RequestBody String requestBody) {
+    private WebClient webClient;
 
-        WebClient webclient = WebClient.create();
+    public ColorService(@Value("${colormind.base.url}") String baseUrl) {
+        webClient = WebClient.create(baseUrl);
+    }
+    public String getColors(String requestBody) {
 
-        return webclient.post()
-                .uri(baseUrl + "/api/")
+
+        return webClient
+                .post()
+                .uri("/api/")
                 .bodyValue(requestBody)
                 .retrieve()
                 .bodyToMono(String.class)
                 .block();
+
+
     }
 }
