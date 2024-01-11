@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ColorRoomSet {
+    String colorRoomSetId;
     Room room;
     ColorPalette savedColors;
 }
