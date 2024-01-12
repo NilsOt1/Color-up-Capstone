@@ -3,6 +3,7 @@ package nilsot1.backend.controller;
 import lombok.RequiredArgsConstructor;
 import nilsot1.backend.exception.ColorRoomSetNotFoundException;
 import nilsot1.backend.exception.UserNotFoundException;
+import nilsot1.backend.model.ColorPalette;
 import nilsot1.backend.model.ColorRoomSet;
 import nilsot1.backend.model.User;
 import nilsot1.backend.service.ColorRoomSetService;
@@ -32,6 +33,11 @@ public class ColorRoomSetController {
     public User saveNewColorRoomSet(@PathVariable String userId, @RequestBody ColorRoomSet colorRoomSet) throws UserNotFoundException {
 
         return service.saveNewColorRoomSet(colorRoomSet, userId);
+    }
+
+    @PutMapping("/{userId}/updateColorRoomSet/{colorRoomSetId}")
+    public User updateColorRoomSet(@PathVariable String userId, @PathVariable String colorRoomSetId, @RequestBody ColorPalette colorPalette) throws UserNotFoundException {
+        return service.updateColorPalette(userId, colorRoomSetId, colorPalette);
     }
 
 
