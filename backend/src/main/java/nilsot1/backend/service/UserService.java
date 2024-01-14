@@ -27,5 +27,16 @@ public class UserService {
         return repo.save(newUser);
     }
 
+    public User deleteUserById(String userId) throws UserNotFoundException {
+        User userToDelete = repo.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(userNotFoundMessage(userId)));
+
+        if (userToDelete != null) {
+            repo.deleteById(userId);
+        }
+
+        return userToDelete;
+    }
+
 
 }

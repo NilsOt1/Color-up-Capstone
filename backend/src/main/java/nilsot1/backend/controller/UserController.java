@@ -24,5 +24,10 @@ public class UserController {
         return service.createNewUser(user);
     }
 
+    @DeleteMapping("/{userId}")
+    public User deleteUserById(@PathVariable String userId) throws UserNotFoundException {
+        return service.deleteUserById(userId);
+    }
+
 
 }
