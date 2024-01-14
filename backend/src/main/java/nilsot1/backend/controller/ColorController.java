@@ -14,7 +14,7 @@ public class ColorController {
 
     private final ColorService service;
 
-    @PostMapping("/getColors")
+    @PostMapping("/colors")
     public String getColors(@RequestBody String requestBody) {
         return service.getColors(requestBody);
     }
