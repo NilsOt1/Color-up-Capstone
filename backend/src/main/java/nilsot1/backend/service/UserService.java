@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class ColorRoomSetService {
+public class UserService {
 
     public String userNotFoundMessage(String userId) {
         return "User with id " + userId + " not found";
@@ -41,6 +41,11 @@ public class ColorRoomSetService {
 
         return foundColorRoomSet
                 .orElseThrow(() -> new ColorRoomSetNotFoundException("ColorRoomSet with id " + colorRoomSetId + " not found"));
+    }
+
+    public User createNewUser(User user) {
+        User newUser = new User(user.getUserId(), user.getUserName(), user.getColorRoomSets());
+        return repo.save(newUser);
     }
 
     public User saveNewColorRoomSet(ColorRoomSet colorRoomSet, String userId) throws UserNotFoundException {
@@ -70,6 +75,7 @@ public class ColorRoomSetService {
 
         return repo.save(user);
     }
+
 
 
 }
