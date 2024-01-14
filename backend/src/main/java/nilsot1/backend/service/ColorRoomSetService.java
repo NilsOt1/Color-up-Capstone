@@ -71,4 +71,15 @@ public class ColorRoomSetService {
 
         return repo.save(user);
     }
+
+    public User deleteColorRoomSetById(String userId, String colorRoomSetId) throws UserNotFoundException {
+        User user = repo.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(userNotFoundMessage(userId)));
+
+        List<ColorRoomSet> colorRoomSets = user.getColorRoomSets();
+
+        colorRoomSets.removeIf(colorRoomSet -> colorRoomSet.getColorRoomSetId().equals(colorRoomSetId));
+
+        return repo.save(user);
+    }
 }

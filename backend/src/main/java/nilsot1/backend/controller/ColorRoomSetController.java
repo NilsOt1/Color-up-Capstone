@@ -28,7 +28,7 @@ public class ColorRoomSetController {
         return service.getColorRoomSetById(userId, colorRoomSetId);
     }
 
-    @PostMapping("/{userId}")
+    @PutMapping("/{userId}")
     public User saveNewColorRoomSet(@PathVariable String userId, @RequestBody ColorRoomSet colorRoomSet) throws UserNotFoundException {
 
         return service.saveNewColorRoomSet(colorRoomSet, userId);
@@ -39,4 +39,8 @@ public class ColorRoomSetController {
         return service.updateColorPalette(userId, colorRoomSetId, colorPalette);
     }
 
+    @PutMapping("/{userId}/delete-set/{colorRoomSetId}")
+    public User deleteColorRoomSetById(@PathVariable String userId, @PathVariable String colorRoomSetId) throws UserNotFoundException {
+        return service.deleteColorRoomSetById(userId, colorRoomSetId);
+    }
 }
