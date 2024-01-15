@@ -12,13 +12,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class ColorRoomSetService {
 
     private final UserRepo repo;
+    private final IdService idService;
 
     public String userNotFoundMessage(String userId) {
         return "User with id " + userId + " not found";
@@ -51,7 +51,7 @@ public class ColorRoomSetService {
         User user = repo.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userNotFoundMessage(userId)));
 
-        ColorRoomSet newColorRoomSet = new ColorRoomSet(UUID.randomUUID().toString(), colorRoomSet.getRoom(), colorRoomSet.getSavedColors());
+        ColorRoomSet newColorRoomSet = new ColorRoomSet(idService.randomId(), colorRoomSet.getRoom(), colorRoomSet.getSavedColors());
 
         user.getColorRoomSets().add(newColorRoomSet);
 
