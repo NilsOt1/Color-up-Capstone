@@ -19,7 +19,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-
 class ColorRoomSetControllerTest {
 
     private final String BASE_URL = "/api/user";
@@ -33,29 +32,32 @@ class ColorRoomSetControllerTest {
 
         mvc.perform(MockMvcRequestBuilders.post(BASE_URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(user.toString()))
+                        .content("""
+                                {
+                                "userId": "1",
+                                "userName": "test",
+                                "colorRoomSets": []
+                                }
+                                """))
 
-                        .andExpect(MockMvcResultMatchers.status().isOk());
-
-
-        mvc.perform(MockMvcRequestBuilders.get(BASE_URL + "{userId}"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().json("[]"));
-    }
+                .andExpect(MockMvcResultMatchers.content().json("""
+                        {
+                        "userId": "1",
+                        "userName": "test",
+                        "colorRoomSets": []
+                        }
+                        """));
 
-    @Test
-    void getColorRoomSetById() {
-    }
 
-    @Test
-    void saveNewColorRoomSet() {
-    }
-
-    @Test
-    void updateColorPalette() {
-    }
-
-    @Test
-    void deleteColorRoomSetById() {
+        mvc.perform(MockMvcRequestBuilders.get(BASE_URL + "/" + user.getUserId()))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json("""
+                        {
+                        "userId": "1",
+                        "userName": "test",
+                        "colorRoomSets": []
+                        }
+                        """));
     }
 }
