@@ -5,12 +5,14 @@ import nilsot1.backend.exception.ColorRoomSetNotFoundException;
 import nilsot1.backend.exception.UserNotFoundException;
 import nilsot1.backend.model.ColorPalette;
 import nilsot1.backend.model.ColorRoomSet;
+import nilsot1.backend.model.ColorRoomSetDTO;
 import nilsot1.backend.model.User;
 import nilsot1.backend.repository.UserRepo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -44,12 +46,12 @@ public class ColorRoomSetService {
                 .orElseThrow(() -> new ColorRoomSetNotFoundException("ColorRoomSet with id " + colorRoomSetId + " not found"));
     }
 
-    public User saveNewColorRoomSet(ColorRoomSet colorRoomSet, String userId) throws UserNotFoundException {
+    public User saveNewColorRoomSet(ColorRoomSetDTO colorRoomSet, String userId) throws UserNotFoundException {
 
         User user = repo.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userNotFoundMessage(userId)));
 
-        ColorRoomSet newColorRoomSet = new ColorRoomSet(colorRoomSet.getColorRoomSetId(), colorRoomSet.getRoom(), colorRoomSet.getSavedColors());
+        ColorRoomSet newColorRoomSet = new ColorRoomSet(UUID.randomUUID().toString(), colorRoomSet.getRoom(), colorRoomSet.getSavedColors());
 
         user.getColorRoomSets().add(newColorRoomSet);
 

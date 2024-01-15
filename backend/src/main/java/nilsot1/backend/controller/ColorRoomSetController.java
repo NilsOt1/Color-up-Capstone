@@ -5,6 +5,7 @@ import nilsot1.backend.exception.ColorRoomSetNotFoundException;
 import nilsot1.backend.exception.UserNotFoundException;
 import nilsot1.backend.model.ColorPalette;
 import nilsot1.backend.model.ColorRoomSet;
+import nilsot1.backend.model.ColorRoomSetDTO;
 import nilsot1.backend.model.User;
 import nilsot1.backend.service.ColorRoomSetService;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +30,7 @@ public class ColorRoomSetController {
     }
 
     @PutMapping("/{userId}")
-    public User saveNewColorRoomSet(@PathVariable String userId, @RequestBody ColorRoomSet colorRoomSet) throws UserNotFoundException {
+    public User saveNewColorRoomSet(@PathVariable String userId, @RequestBody ColorRoomSetDTO colorRoomSet) throws UserNotFoundException {
 
         return service.saveNewColorRoomSet(colorRoomSet, userId);
     }
