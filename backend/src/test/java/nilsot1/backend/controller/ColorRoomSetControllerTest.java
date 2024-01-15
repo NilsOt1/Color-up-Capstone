@@ -1,7 +1,5 @@
 package nilsot1.backend.controller;
 
-import com.fasterxml.jackson.databind.introspect.TypeResolutionContext;
-import nilsot1.backend.model.ColorRoomSet;
 import nilsot1.backend.model.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +11,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
