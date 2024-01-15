@@ -53,7 +53,7 @@ class ColorControllerTest {
                         """)
                 .addHeader("Content-Type", "text/plain"));
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/getColors")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/colors")
                         .content("""
                                         {
                                         "model":"default"
