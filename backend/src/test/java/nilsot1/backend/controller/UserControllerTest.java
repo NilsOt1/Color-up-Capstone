@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class ColorRoomSetControllerTest {
+class UserControllerTest {
 
     private final String BASE_URL = "/api/user";
 
