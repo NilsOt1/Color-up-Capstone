@@ -24,6 +24,7 @@ public class UserService {
 
     public String userNotFoundMessage(String userId) {
         return "User with id " + userId + " not found";
+
     }
 
     public String colorRoomSetNotFoundMessage(String colorRoomSetId) {

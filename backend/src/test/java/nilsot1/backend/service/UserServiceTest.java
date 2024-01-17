@@ -32,6 +32,20 @@ class UserServiceTest {
 
 
     @Test
+    void testUserNotFoundMessage_shouldReturnMessageString_whenCalledWithUserId() {
+        //GIVEN & WHEN
+        String actual = userService.userNotFoundMessage(userId);
+
+        //THEN
+        String expected = "User with id " + userId + " not found";
+        assertEquals(expected, actual);
+    }
+
+
+
+
+
+    @Test
     void testGetAllColorRoomSets_shouldReturnListOfColorRoomSet_whenCalledWithUserId() throws UserNotFoundException {
         //GIVEN
         when(userRepo.findById(testUser.getUserId())).thenReturn(Optional.of(testUser));
@@ -138,4 +152,5 @@ class UserServiceTest {
         // THEN
         assertEquals(2, actual.getColorRoomSets().size());
     }
+
 }
