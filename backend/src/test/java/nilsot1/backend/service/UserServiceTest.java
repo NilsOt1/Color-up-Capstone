@@ -41,9 +41,40 @@ class UserServiceTest {
         assertEquals(expected, actual);
     }
 
+    @Test
+    void testColorRoomSetNotFoundMessage_shouldReturnMessageString_whenCalledWithUserId() {
+        //GIVEN & WHEN
+        String actual = userService.colorRoomSetNotFoundMessage(userId);
 
+        //THEN
+        String expected = "ColorRoomSet with id " + colorRoomSetId + " not found";
+        assertEquals(expected, actual);
+    }
 
+    @Test
+    void testGetUserById_shouldReturnUser_whenCalledWithUserId() throws UserNotFoundException {
+        //GIVEN
+        when(userRepo.findById(userId)).thenReturn(Optional.ofNullable(testUser));
+        //WHEN
+        User actual = userService.getUserById(userId);
 
+        //THEN
+        User expected = testUser;
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testGetUserById_shouldThrowUserNotFoundException_whenUserNotFound() throws UserNotFoundException {
+        // GIVEN
+        when(userRepo.findById("nonExistingId")).thenReturn(Optional.empty());
+
+        // WHEN & THEN
+        assertThrows(UserNotFoundException.class, () -> {
+            userService.getUserById("nonExistingId");
+        });
+
+        verify(userRepo).findById("nonExistingId");
+    }
 
     @Test
     void testGetAllColorRoomSets_shouldReturnListOfColorRoomSet_whenCalledWithUserId() throws UserNotFoundException {
@@ -61,6 +92,11 @@ class UserServiceTest {
         verify(userRepo).findById(testUser.getUserId());
         assertEquals(expected, actual);
     }
+
+
+
+
+
 
     @Test
     void testGetAllColorRoomSets_shouldThrowUserNotFoundException_whenUserNotFound() {
