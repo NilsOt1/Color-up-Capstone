@@ -44,25 +44,18 @@ class ColorControllerTest {
 
     @Test
     void testGetColors_whenCalled_thenReturnString() throws Exception {
-        mockWebServer.enqueue(new MockResponse()
-                .setBody("""
-                            {
-                            "result":[[39,39,57],[89,117,110],[207,164,97],[238,241,82],[207,211,19]]
-                            }
-                        """)
-                .addHeader("Content-Type", "text/plain"));
+        mockWebServer.enqueue(new MockResponse().setBody("""
+                        {
+                        "result":[[39,39,57],[89,117,110],[207,164,97],[238,241,82],[207,211,19]]
+                        }
+                """).addHeader("Content-Type", "text/plain"));
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/colors")
-                        .content("""
-                                    {"model":"default"}
-                                """))
-                .andExpect(status()
-                        .isOk())
-                .andExpect(content().
-                        json("""
-                                {                  
-                                    "result":[[39,39,57],[89,117,110],[207,164,97],[238,241,82],[207,211,19]]
-                                }
-                                """));
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/colors").content("""
+                    {"model":"default"}
+                """)).andExpect(status().isOk()).andExpect(content().json("""
+                {                  
+                    "result":[[39,39,57],[89,117,110],[207,164,97],[238,241,82],[207,211,19]]
+                }
+                """));
     }
 }

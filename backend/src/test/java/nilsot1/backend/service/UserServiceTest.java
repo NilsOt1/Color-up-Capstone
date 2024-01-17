@@ -64,7 +64,7 @@ class UserServiceTest {
     }
 
     @Test
-    void testGetUserById_shouldThrowUserNotFoundException_whenUserNotFound() throws UserNotFoundException {
+    void testGetUserById_shouldThrowUserNotFoundException_whenUserNotFound() {
         // GIVEN
         when(userRepo.findById("nonExistingId")).thenReturn(Optional.empty());
 
@@ -156,20 +156,17 @@ class UserServiceTest {
     }
 
     @Test
-    void testUpdateColorPalette_shouldUpdateColorPalette_whenColorRoomSetExists() throws UserNotFoundException, ColorRoomSetNotFoundException, ColorRoomSetNotFoundException {
+    void testUpdateColorPalette_shouldUpdateColorPalette_whenColorRoomSetExists() throws UserNotFoundException, ColorRoomSetNotFoundException {
         // Given
         when(userRepo.findById(userId)).thenReturn(Optional.of(testUser));
         ColorPalette newColorPalette = new ColorPalette(new int[][]{{2, 2, 2}, {2, 2, 2}, {2, 2, 2}});
 
         // When
-        User updatedUser = userService.updateColorPalette(userId, colorRoomSetId, newColorPalette);
-
         ColorRoomSet updatedSet = userService.getColorRoomSetById(userId, colorRoomSetId);
 
         ColorPalette actual = updatedSet.getSavedColors();
 
         // Then
-
         assertEquals(newColorPalette, actual);
     }
 
