@@ -38,6 +38,9 @@ public class UserService {
     }
 
     public User createNewUser(User user) {
+        if (user == null) {
+            throw new IllegalArgumentException("User cannot be null");
+        }
         User newUser = new User(user.getUserId(), user.getUserName(), user.getColorRoomSets());
         return repo.save(newUser);
     }

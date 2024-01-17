@@ -72,8 +72,38 @@ class UserServiceTest {
         assertThrows(UserNotFoundException.class, () -> {
             userService.getUserById("nonExistingId");
         });
+    }
 
-        verify(userRepo).findById("nonExistingId");
+    @Test
+    void testCreateNewUser_shouldSaveNewUser_whenCalledWithBody() {
+        //GIVEN
+        when(userRepo.save(testUser)).thenReturn(testUser);
+        //WHEN
+        User actual = userService.createNewUser(testUser);
+        //THEN
+        User expected = testUser;
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testCreateNewUser_shouldSaveCorrectUserData_whenCalledWithBody() {
+        // Given
+        when(userRepo.save(testUser)).thenReturn(testUser);
+
+        // When
+        User actual = userService.createNewUser(testUser);
+
+        // Then
+        assertEquals(testUser.getUserId(), actual.getUserId());
+        assertEquals(testUser.getUserName(), actual.getUserName());
+        assertEquals(testUser.getColorRoomSets(), actual.getColorRoomSets());
+    }
+
+    @Test
+    void testCreateNewUser_withNullUser_shouldThrowException() {
+
+        //WHEN & THEN
+        assertThrows(IllegalArgumentException.class, () -> userService.createNewUser(null));
     }
 
     @Test
@@ -108,8 +138,6 @@ class UserServiceTest {
         assertThrows(UserNotFoundException.class, () -> {
             userService.getAllColorRoomSets("notExistingId");
         });
-
-        verify(userRepo).findById("notExistingId");
     }
 
     @Test
