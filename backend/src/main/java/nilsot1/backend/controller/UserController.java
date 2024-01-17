@@ -52,12 +52,12 @@ public class UserController {
     }
 
     @PutMapping("/{userId}/{colorRoomSetId}")
-    public User updateColorPalette(@PathVariable String userId, @PathVariable String colorRoomSetId, @RequestBody ColorPalette colorPalette) throws UserNotFoundException {
+    public User updateColorPalette(@PathVariable String userId, @PathVariable String colorRoomSetId, @RequestBody ColorPalette colorPalette) throws UserNotFoundException, ColorRoomSetNotFoundException {
         return service.updateColorPalette(userId, colorRoomSetId, colorPalette);
     }
 
     @PutMapping("/{userId}/delete-set/{colorRoomSetId}")
-    public User deleteColorRoomSetById(@PathVariable String userId, @PathVariable String colorRoomSetId) throws UserNotFoundException {
+    public User deleteColorRoomSetById(@PathVariable String userId, @PathVariable String colorRoomSetId) throws UserNotFoundException, ColorRoomSetNotFoundException {
         return service.deleteColorRoomSetById(userId, colorRoomSetId);
     }
 }

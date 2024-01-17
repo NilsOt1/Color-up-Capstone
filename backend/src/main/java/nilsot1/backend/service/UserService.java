@@ -10,6 +10,7 @@ import nilsot1.backend.model.User;
 import nilsot1.backend.repository.UserRepo;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +24,10 @@ public class UserService {
 
     public String userNotFoundMessage(String userId) {
         return "User with id " + userId + " not found";
+    }
+
+    public String colorRoomSetNotFoundMessage(String colorRoomSetId) {
+        return "ColorRoomSet with id " + colorRoomSetId + " not found";
     }
 
 
@@ -65,7 +70,7 @@ public class UserService {
                 .findFirst();
 
         return foundColorRoomSet
-                .orElseThrow(() -> new ColorRoomSetNotFoundException("ColorRoomSet with id " + colorRoomSetId + " not found"));
+                .orElseThrow(() -> new ColorRoomSetNotFoundException(colorRoomSetNotFoundMessage(colorRoomSetId)));
     }
 
     public User saveNewColorRoomSet(ColorRoomSetDTO colorRoomSet, String userId) throws UserNotFoundException {
@@ -75,36 +80,54 @@ public class UserService {
 
         ColorRoomSet newColorRoomSet = new ColorRoomSet(idService.randomId(), colorRoomSet.getRoom(), colorRoomSet.getSavedColors());
 
-        user.getColorRoomSets().add(newColorRoomSet);
+        List<ColorRoomSet> updatedColorRoomSets = new ArrayList<>(user.getColorRoomSets());
 
-        return repo.save(user);
+        updatedColorRoomSets.add(newColorRoomSet);
+
+        user.setColorRoomSets(updatedColorRoomSets);
+
+        repo.save(user);
+
+        return user;
     }
 
-    public User updateColorPalette(String userId, String colorRoomSetId, ColorPalette colorPalette) throws UserNotFoundException {
+    public User updateColorPalette(String userId, String colorRoomSetId, ColorPalette colorPalette) throws UserNotFoundException, ColorRoomSetNotFoundException {
 
         User user = repo.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userNotFoundMessage(userId)));
 
         List<ColorRoomSet> colorRoomSets = user.getColorRoomSets();
 
-        Optional<ColorRoomSet> foundColorRoomSet = colorRoomSets.stream()
+        ColorRoomSet foundColorRoomSet = colorRoomSets.stream()
                 .filter(colorRoomSet -> colorRoomSet.getColorRoomSetId().equals(colorRoomSetId))
-                .findFirst();
+                .findFirst()
+                .orElseThrow(() -> new ColorRoomSetNotFoundException(colorRoomSetNotFoundMessage(colorRoomSetId)));
 
-        foundColorRoomSet.ifPresent(colorRoomSet -> colorRoomSet.setSavedColors(colorPalette));
+        foundColorRoomSet.setSavedColors(colorPalette);
 
-        return repo.save(user);
+        repo.save(user);
+
+        return user;
+
     }
 
-    public User deleteColorRoomSetById(String userId, String colorRoomSetId) throws UserNotFoundException {
+    public User deleteColorRoomSetById(String userId, String colorRoomSetId) throws UserNotFoundException, ColorRoomSetNotFoundException {
         User user = repo.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userNotFoundMessage(userId)));
 
-        List<ColorRoomSet> colorRoomSets = user.getColorRoomSets();
+        List<ColorRoomSet> colorRoomSets = new ArrayList<>(user.getColorRoomSets());
 
-        colorRoomSets.removeIf(colorRoomSet -> colorRoomSet.getColorRoomSetId().equals(colorRoomSetId));
+        boolean removed = colorRoomSets.removeIf(colorRoomSet -> colorRoomSet.getColorRoomSetId().equals(colorRoomSetId));
 
-        return repo.save(user);
+        if (!removed) {
+            throw new ColorRoomSetNotFoundException(colorRoomSetNotFoundMessage(colorRoomSetId));
+        }
+
+        user.setColorRoomSets(colorRoomSets);
+
+        repo.save(user);
+
+        return user;
     }
 }
 
