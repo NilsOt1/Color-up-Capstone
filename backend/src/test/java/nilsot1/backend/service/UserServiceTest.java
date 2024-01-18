@@ -28,14 +28,17 @@ class UserServiceTest {
     ColorRoomSet colorRoomSet = new ColorRoomSet(colorRoomSetId, room, colorPalette);
     ColorRoomSetDTO colorRoomSetDTO = new ColorRoomSetDTO(room, colorPalette);
     User testUser = new User(userId, userName, List.of(colorRoomSet));
+    UserDto testUserDto = new UserDto(userName, List.of(colorRoomSet));
 
     @Test
     void testUserNotFoundMessage_shouldReturnMessageString_whenCalledWithUserId() {
-        //GIVEN & WHEN
+        //GIVEN
+        String expected = "User with id " + userId + " not found";
+
+        //WHEN
         String actual = userService.userNotFoundMessage(userId);
 
         //THEN
-        String expected = "User with id " + userId + " not found";
         assertEquals(expected, actual);
     }
 
@@ -53,12 +56,12 @@ class UserServiceTest {
     void testGetUserById_shouldReturnUser_whenCalledWithUserId() throws UserNotFoundException {
         //GIVEN
         when(userRepo.findById(userId)).thenReturn(Optional.of(testUser));
+        User expected = testUser;
 
         //WHEN
         User actual = userService.getUserById(userId);
 
         //THEN
-        User expected = testUser;
         assertEquals(expected, actual);
     }
 
@@ -74,28 +77,29 @@ class UserServiceTest {
     @Test
     void testCreateNewUser_shouldSaveNewUser_whenCalledWithBody() {
         //GIVEN
-        when(userRepo.save(testUser)).thenReturn(testUser);
+        when(idService.randomId()).thenReturn("randomId");
+        User expected = new User("randomId", testUser.getUserName(), testUser.getColorRoomSets());
 
         //WHEN
-        User actual = userService.createNewUser(testUser);
+        User actual = userService.createNewUser(testUserDto);
 
         //THEN
-        User expected = testUser;
         assertEquals(expected, actual);
     }
 
     @Test
     void testCreateNewUser_shouldSaveCorrectUserData_whenCalledWithBody() {
         // Given
-        when(userRepo.save(testUser)).thenReturn(testUser);
+        when(idService.randomId()).thenReturn("randomId");
+        User expected = new User("randomId", testUser.getUserName(), testUser.getColorRoomSets());
 
         // When
-        User actual = userService.createNewUser(testUser);
+        User actual = userService.createNewUser(testUserDto);
 
         // Then
-        assertEquals(testUser.getUserId(), actual.getUserId());
-        assertEquals(testUser.getUserName(), actual.getUserName());
-        assertEquals(testUser.getColorRoomSets(), actual.getColorRoomSets());
+        assertEquals(expected.getUserId(), actual.getUserId());
+        assertEquals(expected.getUserName(), actual.getUserName());
+        assertEquals(expected.getColorRoomSets(), actual.getColorRoomSets());
     }
 
     @Test
@@ -108,17 +112,17 @@ class UserServiceTest {
     void testDeleteUserById_shouldDeleteUser_whenCalledWithUserId() throws UserNotFoundException {
         //GIVEN
         when(userRepo.findById(userId)).thenReturn(Optional.of(testUser));
+        User expected = testUser;
 
         //WHEN
         User actual = userService.deleteUserById(userId);
 
         //THEN
-        User expected = testUser;
         assertEquals(expected, actual);
     }
 
     @Test
-    void testDeleteUserById_shouldThrowUserNotFoundException_whenUserNotFound() throws UserNotFoundException {
+    void testDeleteUserById_shouldThrowUserNotFoundException_whenUserNotFound() {
         //GIVEN
         when(userRepo.findById("Non existing ID")).thenReturn(Optional.empty());
 
@@ -130,14 +134,13 @@ class UserServiceTest {
     void testGetAllColorRoomSets_shouldReturnListOfColorRoomSet_whenCalledWithUserId() throws UserNotFoundException {
         //GIVEN
         when(userRepo.findById(testUser.getUserId())).thenReturn(Optional.of(testUser));
+        List<ColorRoomSet> expected = List.of(
+                new ColorRoomSet(colorRoomSetId, new Room(roomId, roomName), colorPalette));
 
         //WHEN
         List<ColorRoomSet> actual = userService.getAllColorRoomSets(testUser.getUserId());
 
         //THEN
-        List<ColorRoomSet> expected = List.of(
-                new ColorRoomSet(colorRoomSetId, new Room(roomId, roomName), colorPalette)
-        );
         verify(userRepo).findById(testUser.getUserId());
         assertEquals(expected, actual);
     }
@@ -155,12 +158,12 @@ class UserServiceTest {
     void testGetColorRoomSetById_shouldReturnColorRoomSet_whenCalledWithUserIdAndColorRoomSetId() throws UserNotFoundException, ColorRoomSetNotFoundException {
         // GIVEN
         when(userRepo.findById(testUser.getUserId())).thenReturn(Optional.of(testUser));
+        ColorRoomSet expected = colorRoomSet;
 
         // WHEN
         ColorRoomSet actual = userService.getColorRoomSetById(testUser.getUserId(), colorRoomSet.getColorRoomSetId());
 
         // THEN
-        ColorRoomSet expected = colorRoomSet;
         verify(userRepo).findById(testUser.getUserId());
         assertEquals(expected, actual);
     }

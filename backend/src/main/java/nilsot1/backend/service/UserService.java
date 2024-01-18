@@ -3,10 +3,7 @@ package nilsot1.backend.service;
 import lombok.RequiredArgsConstructor;
 import nilsot1.backend.exception.ColorRoomSetNotFoundException;
 import nilsot1.backend.exception.UserNotFoundException;
-import nilsot1.backend.model.ColorPalette;
-import nilsot1.backend.model.ColorRoomSet;
-import nilsot1.backend.model.ColorRoomSetDTO;
-import nilsot1.backend.model.User;
+import nilsot1.backend.model.*;
 import nilsot1.backend.repository.UserRepo;
 import org.springframework.stereotype.Service;
 
@@ -37,12 +34,14 @@ public class UserService {
                 .orElseThrow(() -> new UserNotFoundException(userNotFoundMessage(userId)));
     }
 
-    public User createNewUser(User user) {
+    public User createNewUser(UserDto user) {
         if (user == null) {
             throw new IllegalArgumentException("User cannot be null");
         }
-        User newUser = new User(user.getUserId(), user.getUserName(), user.getColorRoomSets());
-        return repo.save(newUser);
+        User newUser = new User(idService.randomId(), user.getUserName(), user.getColorRoomSets());
+        repo.save(newUser);
+
+        return newUser;
     }
 
     public User deleteUserById(String userId) throws UserNotFoundException {

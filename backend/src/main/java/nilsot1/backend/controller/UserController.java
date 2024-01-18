@@ -3,10 +3,7 @@ package nilsot1.backend.controller;
 import lombok.RequiredArgsConstructor;
 import nilsot1.backend.exception.ColorRoomSetNotFoundException;
 import nilsot1.backend.exception.UserNotFoundException;
-import nilsot1.backend.model.ColorPalette;
-import nilsot1.backend.model.ColorRoomSet;
-import nilsot1.backend.model.ColorRoomSetDTO;
-import nilsot1.backend.model.User;
+import nilsot1.backend.model.*;
 import nilsot1.backend.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +23,7 @@ public class UserController {
     }
 
     @PostMapping
-    public User createNewUser(@RequestBody User user) {
+    public User createNewUser(@RequestBody UserDto user) {
         return service.createNewUser(user);
     }
 
