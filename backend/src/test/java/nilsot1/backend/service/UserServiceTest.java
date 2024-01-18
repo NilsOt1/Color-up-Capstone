@@ -68,9 +68,7 @@ class UserServiceTest {
         when(userRepo.findById("Non existing ID")).thenReturn(Optional.empty());
 
         // WHEN & THEN
-        assertThrows(UserNotFoundException.class, () -> {
-            userService.getUserById("Non existing ID");
-        });
+        assertThrows(UserNotFoundException.class, () -> userService.getUserById("Non existing ID"));
     }
 
     @Test

@@ -49,9 +49,7 @@ public class UserService {
         User userToDelete = repo.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userNotFoundMessage(userId)));
 
-        if (userToDelete != null) {
-            repo.deleteById(userId);
-        }
+        repo.deleteById(userId);
 
         return userToDelete;
     }
@@ -134,4 +132,3 @@ public class UserService {
         return user;
     }
 }
-
