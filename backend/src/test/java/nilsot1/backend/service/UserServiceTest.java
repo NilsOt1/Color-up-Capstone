@@ -15,9 +15,7 @@ import static org.mockito.Mockito.*;
 class UserServiceTest {
 
     UserRepo userRepo = mock(UserRepo.class);
-
     IdService idService = mock(IdService.class);
-
     UserService userService = new UserService(userRepo, idService);
 
     String userId = "1";
@@ -30,7 +28,6 @@ class UserServiceTest {
     ColorRoomSet colorRoomSet = new ColorRoomSet(colorRoomSetId, room, colorPalette);
     ColorRoomSetDTO colorRoomSetDTO = new ColorRoomSetDTO(room, colorPalette);
     User testUser = new User(userId, userName, List.of(colorRoomSet));
-
 
     @Test
     void testUserNotFoundMessage_shouldReturnMessageString_whenCalledWithUserId() {
@@ -55,7 +52,8 @@ class UserServiceTest {
     @Test
     void testGetUserById_shouldReturnUser_whenCalledWithUserId() throws UserNotFoundException {
         //GIVEN
-        when(userRepo.findById(userId)).thenReturn(Optional.ofNullable(testUser));
+        when(userRepo.findById(userId)).thenReturn(Optional.of(testUser));
+
         //WHEN
         User actual = userService.getUserById(userId);
 
@@ -67,11 +65,11 @@ class UserServiceTest {
     @Test
     void testGetUserById_shouldThrowUserNotFoundException_whenUserNotFound() {
         // GIVEN
-        when(userRepo.findById(userId)).thenReturn(Optional.empty());
+        when(userRepo.findById("Non existing ID")).thenReturn(Optional.empty());
 
         // WHEN & THEN
         assertThrows(UserNotFoundException.class, () -> {
-            userService.getUserById(userId);
+            userService.getUserById("Non existing ID");
         });
     }
 
@@ -79,8 +77,10 @@ class UserServiceTest {
     void testCreateNewUser_shouldSaveNewUser_whenCalledWithBody() {
         //GIVEN
         when(userRepo.save(testUser)).thenReturn(testUser);
+
         //WHEN
         User actual = userService.createNewUser(testUser);
+
         //THEN
         User expected = testUser;
         assertEquals(expected, actual);
@@ -102,7 +102,6 @@ class UserServiceTest {
 
     @Test
     void testCreateNewUser_shouldThrowException_whenCalledWithNull() {
-
         //WHEN & THEN
         assertThrows(IllegalArgumentException.class, () -> userService.createNewUser(null));
     }
@@ -111,8 +110,10 @@ class UserServiceTest {
     void testDeleteUserById_shouldDeleteUser_whenCalledWithUserId() throws UserNotFoundException {
         //GIVEN
         when(userRepo.findById(userId)).thenReturn(Optional.of(testUser));
+
         //WHEN
         User actual = userService.deleteUserById(userId);
+
         //THEN
         User expected = testUser;
         assertEquals(expected, actual);
@@ -121,9 +122,10 @@ class UserServiceTest {
     @Test
     void testDeleteUserById_shouldThrowUserNotFoundException_whenUserNotFound() throws UserNotFoundException {
         //GIVEN
-        when(userRepo.findById(userId)).thenReturn(Optional.empty());
+        when(userRepo.findById("Non existing ID")).thenReturn(Optional.empty());
+
         //WHEN & THEN
-        assertThrows(UserNotFoundException.class, () -> userService.deleteUserById(userId));
+        assertThrows(UserNotFoundException.class, () -> userService.deleteUserById("Non existing ID"));
     }
 
     @Test
@@ -138,7 +140,6 @@ class UserServiceTest {
         List<ColorRoomSet> expected = List.of(
                 new ColorRoomSet(colorRoomSetId, new Room(roomId, roomName), colorPalette)
         );
-
         verify(userRepo).findById(testUser.getUserId());
         assertEquals(expected, actual);
     }
@@ -146,12 +147,10 @@ class UserServiceTest {
     @Test
     void testGetAllColorRoomSets_shouldThrowUserNotFoundException_whenUserNotFound() {
         // GIVEN
-        when(userRepo.findById(userId)).thenReturn(Optional.empty());
+        when(userRepo.findById("Non existing ID")).thenReturn(Optional.empty());
 
         // WHEN & THEN
-        assertThrows(UserNotFoundException.class, () -> {
-            userService.getAllColorRoomSets(userId);
-        });
+        assertThrows(UserNotFoundException.class, () -> userService.getAllColorRoomSets("Non existing ID"));
     }
 
     @Test
@@ -164,7 +163,6 @@ class UserServiceTest {
 
         // THEN
         ColorRoomSet expected = colorRoomSet;
-
         verify(userRepo).findById(testUser.getUserId());
         assertEquals(expected, actual);
     }
@@ -172,34 +170,27 @@ class UserServiceTest {
     @Test
     void testGetColorRoomSetById_shouldThrowUserNotFoundException_whenUserNotFound() {
         // GIVEN
-        when(userRepo.findById(userId)).thenReturn(Optional.empty());
+        when(userRepo.findById("Non existing ID")).thenReturn(Optional.empty());
 
         // WHEN & THEN
-        assertThrows(UserNotFoundException.class, () -> {
-            userService.getUserById(userId);
-        });
+        assertThrows(UserNotFoundException.class, () -> userService.getUserById("Non existing ID"));
     }
 
     @Test
     void testGetColorRoomSetById_shouldThrowColorRoomSetException_whenColorRoomSetNotFound() {
         // GIVEN
         when(userRepo.findById(userId)).thenReturn(Optional.of(testUser));
-        String nonExistentColorRoomSetId = "nonexistent-id";
 
         // WHEN & THEN
-        assertThrows(ColorRoomSetNotFoundException.class, () -> userService.getColorRoomSetById(userId, nonExistentColorRoomSetId));
+        assertThrows(ColorRoomSetNotFoundException.class, () -> userService.getColorRoomSetById(userId, "Non existing ID"));
     }
 
     @Test
     void testSaveNewColorRoomSet_shouldReturnSavedColorRoomSet_whenNewColoRoomSet() throws UserNotFoundException {
-
         // GIVEN
         when(userRepo.findById(userId)).thenReturn(Optional.of(testUser));
-
         ColorPalette newColorPalette = new ColorPalette(new int[][]{{2, 2, 2}, {2, 2, 2}, {2, 2, 2}});
-
         ColorRoomSetDTO colorRoomSetDTO = new ColorRoomSetDTO(room, newColorPalette);
-
         when(idService.randomId()).thenReturn("test-id");
 
         // WHEN
@@ -212,12 +203,10 @@ class UserServiceTest {
     @Test
     void testSaveNewColorRoomSet_shouldThrowUserNotFoundException_whenUserNotFound() {
         // GIVEN
-        when(userRepo.findById(userId)).thenReturn(Optional.empty());
+        when(userRepo.findById("Non existing ID")).thenReturn(Optional.empty());
 
         // WHEN & THEN
-        assertThrows(UserNotFoundException.class, () -> {
-            userService.saveNewColorRoomSet(colorRoomSetDTO, userId);
-        });
+        assertThrows(UserNotFoundException.class, () -> userService.saveNewColorRoomSet(colorRoomSetDTO, "Non existing ID"));
     }
 
     @Test
@@ -227,7 +216,6 @@ class UserServiceTest {
         ColorPalette newColorPalette = new ColorPalette(new int[][]{{2, 2, 2}, {2, 2, 2}, {2, 2, 2}});
 
         // When
-
         User updatedUser = userService.updateColorPalette(userId, colorRoomSetId, newColorPalette);
         ColorPalette actual = updatedUser.getColorRoomSets().getFirst().getSavedColors();
 
@@ -239,10 +227,9 @@ class UserServiceTest {
     void testUpdateColorPalette_shouldThrowColorRoomSetException_whenColorRoomSetNotFound() {
         // GIVEN
         when(userRepo.findById(userId)).thenReturn(Optional.of(testUser));
-        String nonExistentColorRoomSetId = "nonexistent-id";
 
         // WHEN & THEN
-        assertThrows(ColorRoomSetNotFoundException.class, () -> userService.updateColorPalette(userId, nonExistentColorRoomSetId, colorPalette));
+        assertThrows(ColorRoomSetNotFoundException.class, () -> userService.updateColorPalette(userId, "Non existing ID", colorPalette));
     }
 
     @Test
@@ -251,9 +238,7 @@ class UserServiceTest {
         when(userRepo.findById(userId)).thenReturn(Optional.empty());
 
         // WHEN & THEN
-        assertThrows(UserNotFoundException.class, () -> {
-            userService.updateColorPalette(userId, colorRoomSetId, colorPalette);
-        });
+        assertThrows(UserNotFoundException.class, () -> userService.updateColorPalette(userId, colorRoomSetId, colorPalette));
     }
 
     @Test
@@ -264,7 +249,6 @@ class UserServiceTest {
         // When
         userService.deleteColorRoomSetById(userId, colorRoomSetId);
         User updatedUser = userService.getUserById(userId);
-
         int actual = updatedUser.getColorRoomSets().size();
 
         // Then
@@ -277,21 +261,15 @@ class UserServiceTest {
         when(userRepo.findById(userId)).thenReturn(Optional.empty());
 
         // WHEN & THEN
-        assertThrows(UserNotFoundException.class, () -> {
-            userService.deleteColorRoomSetById(userId, colorRoomSetId);
-        });
+        assertThrows(UserNotFoundException.class, () -> userService.deleteColorRoomSetById(userId, colorRoomSetId));
     }
 
     @Test
     void testDeleteColorRoomSetById_shouldThrowColorRoomSetException_whenColorRoomSetNotFound() {
         // GIVEN
         when(userRepo.findById(userId)).thenReturn(Optional.of(testUser));
-        String nonExistentColorRoomSetId = "nonexistent-id";
 
         // WHEN & THEN
-        assertThrows(ColorRoomSetNotFoundException.class, () -> userService.deleteColorRoomSetById(userId, nonExistentColorRoomSetId));
+        assertThrows(ColorRoomSetNotFoundException.class, () -> userService.deleteColorRoomSetById(userId, "Non existing ID"));
     }
-
-
-
 }
