@@ -13,7 +13,7 @@ export default function ColorPalette() {
             model: "default"
         }
 
-        axios.post("/api/getColors", requestBody)
+        axios.post("/api/colors", requestBody)
             .then(response => setData(response.data.result))
             .catch(error => {
                 console.error("Error", error)
