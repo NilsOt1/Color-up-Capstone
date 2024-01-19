@@ -29,6 +29,26 @@ class UserControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
+    void testGetUserById_shouldReturnUser_whenCalledWithUserId() throws Exception {
+
+        UserDto userDto = new UserDto("test", new ArrayList<>());
+        String userDtoAsJson = objectMapper.writeValueAsString(userDto);
+
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(BASE_URL)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(userDtoAsJson))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        User savedUser = objectMapper.readValue(result.getResponse().getContentAsString(), User.class);
+        String userAsJSON = objectMapper.writeValueAsString(savedUser);
+
+        mvc.perform(MockMvcRequestBuilders.get(BASE_URL + "/" + savedUser.getUserId()))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(userAsJSON));
+    }
+
+    @Test
     void testGetAllColorRoomSets_shouldReturnEmptyList_whenCalledInitially() throws Exception {
         UserDto user = new UserDto("test", new ArrayList<>());
         String newUserAsJSON = objectMapper.writeValueAsString(user);
@@ -38,7 +58,7 @@ class UserControllerTest {
                         .content(newUserAsJSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(newUserAsJSON))
-                        .andReturn();
+                .andReturn();
 
         User savedUser = objectMapper.readValue(result.getResponse().getContentAsString(), User.class);
         String userAsJSON = objectMapper.writeValueAsString(savedUser);
@@ -47,4 +67,6 @@ class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(userAsJSON));
     }
+
+
 }
