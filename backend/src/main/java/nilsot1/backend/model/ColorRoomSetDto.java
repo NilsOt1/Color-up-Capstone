@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    public class ColorRoomSetDTO {
+    public class ColorRoomSetDto {
         Room room;
         ColorPalette savedColors;
     }

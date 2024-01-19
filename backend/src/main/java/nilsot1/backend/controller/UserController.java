@@ -43,7 +43,7 @@ public class UserController {
     }
 
     @PutMapping("/{userId}")
-    public User saveNewColorRoomSet(@PathVariable String userId, @RequestBody ColorRoomSetDTO colorRoomSet) throws UserNotFoundException {
+    public User saveNewColorRoomSet(@PathVariable String userId, @RequestBody ColorRoomSetDto colorRoomSet) throws UserNotFoundException {
 
         return service.saveNewColorRoomSet(colorRoomSet, userId);
     }

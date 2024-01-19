@@ -26,7 +26,7 @@ class UserServiceTest {
     ColorPalette colorPalette = new ColorPalette(new int[][]{{1, 1, 1}, {1, 1, 1}, {1, 1, 1}});
     Room room = new Room(roomId, roomName);
     ColorRoomSet colorRoomSet = new ColorRoomSet(colorRoomSetId, room, colorPalette);
-    ColorRoomSetDTO colorRoomSetDTO = new ColorRoomSetDTO(room, colorPalette);
+    ColorRoomSetDto colorRoomSetDTO = new ColorRoomSetDto(room, colorPalette);
     User testUser = new User(userId, userName, List.of(colorRoomSet));
     UserDto testUserDto = new UserDto(userName, List.of(colorRoomSet));
 
@@ -191,7 +191,7 @@ class UserServiceTest {
         // GIVEN
         when(userRepo.findById(userId)).thenReturn(Optional.of(testUser));
         ColorPalette newColorPalette = new ColorPalette(new int[][]{{2, 2, 2}, {2, 2, 2}, {2, 2, 2}});
-        ColorRoomSetDTO colorRoomSetDTO = new ColorRoomSetDTO(room, newColorPalette);
+        ColorRoomSetDto colorRoomSetDTO = new ColorRoomSetDto(room, newColorPalette);
         when(idService.randomId()).thenReturn("test-id");
 
         // WHEN

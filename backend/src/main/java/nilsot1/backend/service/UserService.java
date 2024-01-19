@@ -74,7 +74,7 @@ public class UserService {
                 .orElseThrow(() -> new ColorRoomSetNotFoundException(colorRoomSetNotFoundMessage(colorRoomSetId)));
     }
 
-    public User saveNewColorRoomSet(ColorRoomSetDTO colorRoomSet, String userId) throws UserNotFoundException {
+    public User saveNewColorRoomSet(ColorRoomSetDto colorRoomSet, String userId) throws UserNotFoundException {
 
         User user = repo.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userNotFoundMessage(userId)));
