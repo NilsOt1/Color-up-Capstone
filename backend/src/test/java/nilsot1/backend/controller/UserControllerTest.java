@@ -70,6 +70,25 @@ class UserControllerTest {
     }
 
     @Test
+    void testDeleteUserById_shouldReturnDeletedUser_whenCalledWithId() throws Exception {
+        UserDto userDto = new UserDto("test", new ArrayList<>());
+        String userDtoAsJSON = objectMapper.writeValueAsString(userDto);
+
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(BASE_URL)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(userDtoAsJSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        User savedUser = objectMapper.readValue(result.getResponse().getContentAsString(), User.class);
+        String userAsJSON = objectMapper.writeValueAsString(savedUser);
+
+        mvc.perform(MockMvcRequestBuilders.delete(BASE_URL + "/" + savedUser.getUserId()))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(userAsJSON));
+    }
+
+    @Test
     void testGetAllColorRoomSets_shouldReturnEmptyList_whenCalledInitially() throws Exception {
         UserDto userDto = new UserDto("test", new ArrayList<>());
         String newUserAsJSON = objectMapper.writeValueAsString(userDto);
@@ -88,4 +107,7 @@ class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(userAsJSON));
     }
+
+
+
 }
