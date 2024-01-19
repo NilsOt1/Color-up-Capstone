@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class UserControllerTest {
 
     private final String BASE_URL = "/api/user";
@@ -49,9 +51,28 @@ class UserControllerTest {
     }
 
     @Test
+    void testCreateNewUser_shouldSaveAndReturnNewUser_WhenCalledWithBody() throws Exception {
+        UserDto userDto = new UserDto("test", new ArrayList<>());
+        String userDtoAsJson = objectMapper.writeValueAsString(userDto);
+
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(BASE_URL)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(userDtoAsJson))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        User savedUser = objectMapper.readValue(result.getResponse().getContentAsString(), User.class);
+        String userAsJSON = objectMapper.writeValueAsString(savedUser);
+
+        mvc.perform(MockMvcRequestBuilders.get(BASE_URL + "/" + savedUser.getUserId()))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(userAsJSON));
+    }
+
+    @Test
     void testGetAllColorRoomSets_shouldReturnEmptyList_whenCalledInitially() throws Exception {
-        UserDto user = new UserDto("test", new ArrayList<>());
-        String newUserAsJSON = objectMapper.writeValueAsString(user);
+        UserDto userDto = new UserDto("test", new ArrayList<>());
+        String newUserAsJSON = objectMapper.writeValueAsString(userDto);
 
         MvcResult result = mvc.perform(MockMvcRequestBuilders.post(BASE_URL)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -67,6 +88,4 @@ class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(userAsJSON));
     }
-
-
 }
