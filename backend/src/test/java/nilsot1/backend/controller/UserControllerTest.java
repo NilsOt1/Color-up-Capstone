@@ -1,8 +1,7 @@
 package nilsot1.backend.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nilsot1.backend.model.User;
-import nilsot1.backend.model.UserDto;
+import nilsot1.backend.model.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -15,6 +14,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 @SpringBootTest
@@ -105,9 +105,26 @@ class UserControllerTest {
 
         mvc.perform(MockMvcRequestBuilders.get(BASE_URL + "/" + savedUser.getUserId()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().json(userAsJSON));
+                .andExpect(MockMvcResultMatchers.content().json("[]"));
     }
 
+    @Test
+    void testGetColorRoomSetById_shouldReturnColorRoomSet_WhenCalledWithId() throws Exception {
+        UserDto userDto = new UserDto("test", List.of(new ColorRoomSet("test", new Room(), new ColorPalette())));
+        String newUserAsJSON = objectMapper.writeValueAsString(userDto);
 
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(BASE_URL)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(newUserAsJSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(newUserAsJSON))
+                .andReturn();
 
+        User savedUser = objectMapper.readValue(result.getResponse().getContentAsString(), User.class);
+        String colorRoomSetAsJSON = objectMapper.writeValueAsString(savedUser.getColorRoomSets().get(0));
+
+        mvc.perform(MockMvcRequestBuilders.get(BASE_URL + "/" + savedUser.getUserId() + "/color-room-sets" + "/" + savedUser.getColorRoomSets().get(0).getColorRoomSetId()))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(colorRoomSetAsJSON));
+    }
 }
