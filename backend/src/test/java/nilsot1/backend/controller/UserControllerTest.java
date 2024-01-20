@@ -159,7 +159,7 @@ class UserControllerTest {
     }
 
     @Test
-    void testUpdateColorPalette_shouldUpdateExistingColorRoomSet_whenCalledWithIdAndBody() throws Exception {
+    void testUpdateColorPalette_shouldReturnUpdatedUser_whenCalledWithIdAndBody() throws Exception {
         UserDto userDto = new UserDto("test", List.of(new ColorRoomSet("test", new Room(), new ColorPalette())));
         String newUserAsJSON = objectMapper.writeValueAsString(userDto);
 
@@ -174,17 +174,35 @@ class UserControllerTest {
         ColorPalette newColorPalette = new ColorPalette(new int[][]{{1, 1, 1}, {1, 1, 1}, {1, 1, 1}});
         String newColorPaletteAsJSON = objectMapper.writeValueAsString(newColorPalette);
 
-        MvcResult resultAfterPut = mvc.perform(MockMvcRequestBuilders.put(BASE_URL + "/" + savedUser.getUserId() + "/" + savedUser.getColorRoomSets().get(0).getColorRoomSetId())
+        User expectedUser = new User(savedUser.getUserId(), "test", List.of(new ColorRoomSet("test", new Room(), newColorPalette)));
+        String expectedUserAsJSON = objectMapper.writeValueAsString(expectedUser);
+
+        mvc.perform(MockMvcRequestBuilders.put(BASE_URL + "/" + savedUser.getUserId() + "/" + savedUser.getColorRoomSets().get(0).getColorRoomSetId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(newColorPaletteAsJSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(expectedUserAsJSON));
+    }
+
+    @Test
+    void testDeleteColorRoomSetById_shouldReturnUserWithoutColorRoomSets_whenCalledWithId() throws Exception {
+        UserDto userDto = new UserDto("test", List.of(new ColorRoomSet("test", new Room(), new ColorPalette())));
+        String newUserAsJSON = objectMapper.writeValueAsString(userDto);
+
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(BASE_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(newUserAsJSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(newUserAsJSON))
                 .andReturn();
 
-        User updatedUser = objectMapper.readValue(resultAfterPut.getResponse().getContentAsString(), User.class);
-        String updatedUserAsJSON = objectMapper.writeValueAsString(updatedUser);
+        User savedUser = objectMapper.readValue(result.getResponse().getContentAsString(), User.class);
 
-        mvc.perform(MockMvcRequestBuilders.get(BASE_URL + "/" + updatedUser.getUserId()))
+        User expectedUser = new User(savedUser.getUserId(), "test", new ArrayList<>());
+        String expectedUserAsJSON = objectMapper.writeValueAsString(expectedUser);
+
+                mvc.perform(MockMvcRequestBuilders.put(BASE_URL + "/" + savedUser.getUserId() + "/delete-set" + "/" + "test"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().json(updatedUserAsJSON));
+                .andExpect(MockMvcResultMatchers.content().json(expectedUserAsJSON));
     }
 }
