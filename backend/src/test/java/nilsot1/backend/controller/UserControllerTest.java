@@ -144,17 +144,47 @@ class UserControllerTest {
         ColorRoomSetDto colorRoomSetDTO = new ColorRoomSetDto(new Room(), new ColorPalette());
         String colorRoomSetDtoAsJSON = objectMapper.writeValueAsString(colorRoomSetDTO);
 
-        MvcResult result1 = mvc.perform(MockMvcRequestBuilders.put(BASE_URL + "/" + savedUser.getUserId())
+        MvcResult resultAfterPut = mvc.perform(MockMvcRequestBuilders.put(BASE_URL + "/" + savedUser.getUserId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(colorRoomSetDtoAsJSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
 
-        User editedUser = objectMapper.readValue(result1.getResponse().getContentAsString(), User.class);
-        String addedColorRoomSetAsJSON = objectMapper.writeValueAsString(editedUser.getColorRoomSets().get(0));
+        User updatedUser = objectMapper.readValue(resultAfterPut.getResponse().getContentAsString(), User.class);
+        String updatedUserAsJSON = objectMapper.writeValueAsString(updatedUser);
 
-        mvc.perform(MockMvcRequestBuilders.get(BASE_URL + "/" + editedUser.getUserId() + "/color-room-sets" + "/" + editedUser.getColorRoomSets().get(0).getColorRoomSetId()))
+        mvc.perform(MockMvcRequestBuilders.get(BASE_URL + "/" + updatedUser.getUserId()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().json(addedColorRoomSetAsJSON));
+                .andExpect(MockMvcResultMatchers.content().json(updatedUserAsJSON));
+    }
+
+    @Test
+    void testUpdateColorPalette_shouldUpdateExistingColorRoomSet_whenCalledWithIdAndBody() throws Exception {
+        UserDto userDto = new UserDto("test", List.of(new ColorRoomSet("test", new Room(), new ColorPalette())));
+        String newUserAsJSON = objectMapper.writeValueAsString(userDto);
+
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post(BASE_URL)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(newUserAsJSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(newUserAsJSON))
+                .andReturn();
+
+        User savedUser = objectMapper.readValue(result.getResponse().getContentAsString(), User.class);
+        ColorPalette newColorPalette = new ColorPalette(new int[][]{{1, 1, 1}, {1, 1, 1}, {1, 1, 1}});
+        String newColorPaletteAsJSON = objectMapper.writeValueAsString(newColorPalette);
+
+        MvcResult resultAfterPut = mvc.perform(MockMvcRequestBuilders.put(BASE_URL + "/" + savedUser.getUserId() + "/" + savedUser.getColorRoomSets().get(0).getColorRoomSetId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(newColorPaletteAsJSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        User updatedUser = objectMapper.readValue(resultAfterPut.getResponse().getContentAsString(), User.class);
+        String updatedUserAsJSON = objectMapper.writeValueAsString(updatedUser);
+
+        mvc.perform(MockMvcRequestBuilders.get(BASE_URL + "/" + updatedUser.getUserId()))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(updatedUserAsJSON));
     }
 }
