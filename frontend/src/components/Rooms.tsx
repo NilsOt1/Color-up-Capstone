@@ -1,10 +1,16 @@
 import axios from "axios";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {ColorRoomSet} from "../types/ColorRoomSet.ts";
+import SingleRoom from "./SingleRoom.tsx";
 
 export default function Rooms() {
 
     const [colorRoomSets, setColorRoomSets] = useState<ColorRoomSet[]>([]);
+
+    useEffect(() => {
+        fetchAllColorRoomSets()
+    }, []);
+
     function fetchAllColorRoomSets() {
         axios.get("api/user/cf0ff01b-8d19-4211-9a0b-6eb0aeec165e/color-room-sets")
             .then(response => setColorRoomSets(response.data))
@@ -15,7 +21,10 @@ export default function Rooms() {
 
     return (
         <>
-            <button onClick={fetchAllColorRoomSets}>All ColorRoomSets</button>
-        </>
+            {colorRoomSets.map(set => (
+                    <SingleRoom key={set.colorRoomSetId} colorRoomSet={set}>{set.room.roomName}</SingleRoom>
+                )
+            )}
+            </>
     )
 }
