@@ -48,7 +48,12 @@ public class UserController {
         return service.saveNewColorRoomSet(colorRoomSet, userId);
     }
 
-    @PutMapping("/{userId}/{colorRoomSetId}")
+    @PutMapping("/{userId}/update-name/{colorRoomSetId}")
+    public User updateRoomName(@PathVariable String userId, @PathVariable String colorRoomSetId, @RequestBody String roomName) throws UserNotFoundException, ColorRoomSetNotFoundException {
+        return service.updateRoomName(userId, colorRoomSetId, roomName);
+    }
+
+    @PutMapping("/{userId}/update-colors/{colorRoomSetId}")
     public User updateColorPalette(@PathVariable String userId, @PathVariable String colorRoomSetId, @RequestBody ColorPalette colorPalette) throws UserNotFoundException, ColorRoomSetNotFoundException {
         return service.updateColorPalette(userId, colorRoomSetId, colorPalette);
     }

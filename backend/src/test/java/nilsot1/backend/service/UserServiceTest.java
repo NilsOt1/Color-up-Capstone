@@ -211,6 +211,38 @@ class UserServiceTest {
     }
 
     @Test
+    void testUpdateRoomName_shouldUpdateRoomName_whenColorRoomSetExists() throws UserNotFoundException, ColorRoomSetNotFoundException {
+        //GIVEN
+        when(userRepo.findById(userId)).thenReturn(Optional.of(testUser));
+        String newRoomName = "new name";
+
+        //WHEN
+        User updatedUser = userService.updateRoomName(userId, colorRoomSetId, newRoomName);
+        String actual = updatedUser.getColorRoomSets().getFirst().getRoom().getRoomName();
+
+        //THEN
+        assertEquals(newRoomName, actual);
+    }
+
+    @Test
+    void testUpdateRoomName_shouldThrowColorRoomSetException_whenColorRoomSetNotFound() {
+        // GIVEN
+        when(userRepo.findById(userId)).thenReturn(Optional.of(testUser));
+
+        // WHEN & THEN
+        assertThrows(ColorRoomSetNotFoundException.class, () -> userService.updateRoomName(userId, "Non existing ID", roomName));
+    }
+
+    @Test
+    void testUpdateRoomName_shouldThrowUserNotFoundException_whenUserNotFound() {
+        // GIVEN
+        when(userRepo.findById(userId)).thenReturn(Optional.empty());
+
+        // WHEN & THEN
+        assertThrows(UserNotFoundException.class, () -> userService.updateRoomName(userId, colorRoomSetId, roomName));
+    }
+
+    @Test
     void testUpdateColorPalette_shouldUpdateColorPalette_whenColorRoomSetExists() throws UserNotFoundException, ColorRoomSetNotFoundException {
         // Given
         when(userRepo.findById(userId)).thenReturn(Optional.of(testUser));
