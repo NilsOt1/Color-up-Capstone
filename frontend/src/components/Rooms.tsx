@@ -2,6 +2,7 @@ import axios from "axios";
 import {useEffect, useState} from "react";
 import {ColorRoomSet} from "../types/ColorRoomSet.ts";
 import SingleRoom from "./SingleRoom.tsx";
+import styled from "styled-components";
 
 export default function Rooms() {
 
@@ -20,11 +21,18 @@ export default function Rooms() {
     }
 
     return (
-        <>
+        <StyledUl>
             {colorRoomSets.map(set => (
-                    <SingleRoom key={set.colorRoomSetId} colorRoomSet={set}>{set.room.roomName}</SingleRoom>
+                    <SingleRoom key={set.colorRoomSetId} colorRoomSet={set}>
+                        {set.room.roomName}
+                    </SingleRoom>
                 )
             )}
-            </>
+        </StyledUl>
     )
 }
+
+const StyledUl = styled.ul`
+  display: flex;
+  flex-direction: column;
+`;
