@@ -92,6 +92,25 @@ public class UserService {
         return user;
     }
 
+    public User updateRoomName(String userId, String colorRoomSetId, String roomName) throws UserNotFoundException, ColorRoomSetNotFoundException {
+
+        User user = repo.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(userNotFoundMessage(userId)));
+
+        List<ColorRoomSet> colorRoomSets = user.getColorRoomSets();
+
+        ColorRoomSet foundColorRoomSet = colorRoomSets.stream()
+                .filter(colorRoomSet -> colorRoomSet.getColorRoomSetId().equals(colorRoomSetId))
+                .findFirst()
+                .orElseThrow(() -> new ColorRoomSetNotFoundException(colorRoomSetNotFoundMessage(colorRoomSetId)));
+
+        foundColorRoomSet.getRoom().setRoomName(roomName);
+
+        repo.save(user);
+
+        return user;
+    }
+
     public User updateColorPalette(String userId, String colorRoomSetId, ColorPalette colorPalette) throws UserNotFoundException, ColorRoomSetNotFoundException {
 
         User user = repo.findById(userId)
