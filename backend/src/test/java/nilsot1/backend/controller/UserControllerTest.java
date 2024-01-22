@@ -202,7 +202,7 @@ class UserControllerTest {
         User expectedUser = new User(savedUser.getUserId(), "test", List.of(new ColorRoomSet("test", new Room(), newColorPalette)));
         String expectedUserAsJSON = objectMapper.writeValueAsString(expectedUser);
 
-        mvc.perform(MockMvcRequestBuilders.put(BASE_URL + "/" + savedUser.getUserId() + "/" + savedUser.getColorRoomSets().get(0).getColorRoomSetId())
+        mvc.perform(MockMvcRequestBuilders.put(BASE_URL + "/" + savedUser.getUserId() + "/update-colors" + "/" + savedUser.getColorRoomSets().get(0).getColorRoomSetId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(newColorPaletteAsJSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
