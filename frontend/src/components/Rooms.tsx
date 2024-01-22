@@ -8,11 +8,11 @@ export default function Rooms() {
 
     const [colorRoomSets, setColorRoomSets] = useState<ColorRoomSet[]>([]);
 
-    useEffect(() => {
+    useEffect(():void => {
         fetchAllColorRoomSets()
     }, []);
 
-    function fetchAllColorRoomSets() {
+    function fetchAllColorRoomSets():void {
         axios.get("api/user/cf0ff01b-8d19-4211-9a0b-6eb0aeec165e/color-room-sets")
             .then(response => setColorRoomSets(response.data))
             .catch(error => {
@@ -23,7 +23,11 @@ export default function Rooms() {
     return (
         <StyledUl>
             {colorRoomSets.map(set => (
-                    <SingleRoom key={set.colorRoomSetId} colorRoomSet={set}>
+                    <SingleRoom
+                        key={set.colorRoomSetId}
+                        colorRoomSet={set}
+                        fetchAllColorRoomSets={fetchAllColorRoomSets}
+                    >
                         {set.room.roomName}
                     </SingleRoom>
                 )
