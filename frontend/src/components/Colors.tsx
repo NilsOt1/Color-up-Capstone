@@ -1,6 +1,5 @@
 import axios from "axios";
 import {useState} from "react";
-import {ColorPalette} from "../types/ColorPalette.ts";
 import {SingleColor} from "../types/SingleColor.ts";
 
 export default function Colors() {
