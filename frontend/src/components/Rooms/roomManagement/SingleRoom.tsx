@@ -6,12 +6,12 @@ import axios from "axios";
 import {User} from "../../../types/User.ts";
 
 
-type ColorRoomSetProps = {
+type RoomProps = {
     colorRoomSet: ColorRoomSet
     children: ReactNode
     fetchAllColorRoomSets: () => void
 }
-export default function SingleRoom(props: ColorRoomSetProps) {
+export default function SingleRoom(props: Readonly<RoomProps>) {
 
     const [editMode, setEditMode] = useState<boolean>(false);
     const [newRoomName, setNewRoomName] = useState<string>(props.colorRoomSet.room.roomName)
@@ -24,7 +24,7 @@ export default function SingleRoom(props: ColorRoomSetProps) {
             axios
                 .put("/api/user" + "/cf0ff01b-8d19-4211-9a0b-6eb0aeec165e" + "/delete-set/" + props.colorRoomSet.colorRoomSetId)
                 .then(response => {
-                    console.log("DELETE room successfull", response.data);
+                    console.log("DELETE room successfully", response.data);
                     props.fetchAllColorRoomSets();
                 })
                 .catch(error => {

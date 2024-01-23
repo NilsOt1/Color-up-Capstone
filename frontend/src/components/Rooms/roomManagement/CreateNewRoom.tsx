@@ -11,7 +11,7 @@ type RoomProps = {
     fetchAllColorRoomSets: () => void
 }
 
-export default function CreateNewRoom(props: RoomProps) {
+export default function CreateNewRoom(props: Readonly<RoomProps>) {
 
     const [data, setData] = useState<User>()
     const [roomName, setRoomName] = useState<string>("")

@@ -9,8 +9,8 @@ function App() {
         <>
 
             <Routes>
-                <Route path={"/colorSelection/room/:colorRoomSetId"} element={<ColorSelection/>}/>
-                <Route path={"/roomSelection"} element={<RoomSelection/>}/>
+                <Route path={"/color-selection/room/:colorRoomSetId"} element={<ColorSelection/>}/>
+                <Route path={"/room-selection"} element={<RoomSelection/>}/>
             </Routes>
 
         </>
