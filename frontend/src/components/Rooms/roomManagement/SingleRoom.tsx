@@ -82,7 +82,7 @@ export default function SingleRoom(props: Readonly<RoomProps>) {
             ) : (
                 <>
                     <StyledRoomLink
-                        to={`/colorSelection/room/${props.colorRoomSet.colorRoomSetId}`}>
+                        to={`/color-selection/room/${props.colorRoomSet.colorRoomSetId}`}>
                         <StyledListItem>{props.children}</StyledListItem>
                     </StyledRoomLink>
                     <button onClick={deleteColorRoomSet}>delete</button>
