@@ -1,8 +1,8 @@
-import ColorPalette from "../components/ColorPalette.tsx";
+import Colors from "../components/Colors.tsx";
 
 export default function ColorSelection() {
     return (
-        <ColorPalette/>
+        <Colors/>
     )
 
 }

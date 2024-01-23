@@ -1,8 +1,8 @@
 import {Room} from "./Room.ts";
-import {ColorPaletteType} from "./ColorPaletteType.ts";
+import {ColorPalette} from "./ColorPalette.ts";
 
 export type ColorRoomSet = {
     colorRoomSetId: string
     room: Room
-    savedColors: ColorPaletteType
+    savedColors: ColorPalette
 }
