@@ -1,5 +1,5 @@
 import {Link} from "react-router-dom";
-import {ColorRoomSet} from "../types/ColorRoomSet.ts";
+import {ColorRoomSet} from "../../../types/ColorRoomSet.ts";
 import {ReactNode} from "react";
 import styled from "styled-components";
 import axios from "axios";
@@ -13,7 +13,7 @@ type ColorRoomSetProps = {
 export default function SingleRoom(props: ColorRoomSetProps) {
 
 
-function deleteColorRoomSet() {
+function deleteColorRoomSet():void {
     axios
         .put("/api/user" + "/cf0ff01b-8d19-4211-9a0b-6eb0aeec165e" + "/delete-set/" + props.colorRoomSet.colorRoomSetId)
         .then(response => {
@@ -24,14 +24,15 @@ function deleteColorRoomSet() {
         })
 }
 
+
     return (
-        <span>
-            <button onClick={deleteColorRoomSet}>delete</button>
+        <StyledRoomsContainer>
             <StyledRoomLink
                 to={"/colorSelection"}>
                 <StyledListItem>{props.children}</StyledListItem>
             </StyledRoomLink>
-        </span>
+            <button onClick={deleteColorRoomSet}>delete</button>
+        </StyledRoomsContainer>
     )
 }
 
@@ -49,4 +50,9 @@ export const StyledListItem = styled.li`
 export const StyledRoomLink = styled(Link)`
   text-decoration: none;
   color: #ffffff;
+`;
+
+export const StyledRoomsContainer = styled.span`
+  display: flex;
+  align-items: center;
 `;
