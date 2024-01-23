@@ -1,37 +1,87 @@
 import {Link} from "react-router-dom";
 import {ColorRoomSet} from "../../../types/ColorRoomSet.ts";
-import {ReactNode} from "react";
+import {ChangeEvent, ReactNode, useEffect, useState} from "react";
 import styled from "styled-components";
 import axios from "axios";
+import {User} from "../../../types/User.ts";
 
 
 type ColorRoomSetProps = {
     colorRoomSet: ColorRoomSet
     children: ReactNode
-    fetchAllColorRoomSets:() => void
+    fetchAllColorRoomSets: () => void
 }
 export default function SingleRoom(props: ColorRoomSetProps) {
 
+    const [editMode, setEditMode] = useState<boolean>(false);
+    const [newRoomName, setNewRoomName] = useState<string>(props.colorRoomSet.room.roomName)
+    const [data, setData] = useState<User | null>([])
 
-function deleteColorRoomSet():void {
-    axios
-        .put("/api/user" + "/cf0ff01b-8d19-4211-9a0b-6eb0aeec165e" + "/delete-set/" + props.colorRoomSet.colorRoomSetId)
-        .then(response => {
-            console.log("DELETE room successfull", response.data)
-        })
-        .catch(error => {
-            console.error("DELETE did not work:", error)
-        })
-}
+    useEffect(() => {
 
+    }, []);
+
+    function deleteColorRoomSet(): void {
+        axios
+            .put("/api/user" + "/cf0ff01b-8d19-4211-9a0b-6eb0aeec165e" + "/delete-set/" + props.colorRoomSet.colorRoomSetId)
+            .then(response => {
+                console.log("DELETE room successfull", response.data)
+            })
+            .catch(error => {
+                console.error("DELETE did not work:", error)
+            })
+    }
+
+
+    function handleEditClick(): void {
+        setEditMode(true)
+    }
+
+    function handleSaveEdit(): void {
+        changeRoomName();
+        setEditMode(false)
+    }
+
+    function handleCancelEdit(): void {
+        setEditMode(false);
+        setNewRoomName(props.colorRoomSet.room.roomName)
+    }
+
+    function handleInputChange(event: ChangeEvent<HTMLInputElement>): void {
+        setNewRoomName(event.target.value)
+    }
+
+    function changeRoomName() {
+        axios
+            .put("/api/user/cf0ff01b-8d19-4211-9a0b-6eb0aeec165e/update-name/" + props.colorRoomSet.colorRoomSetId, newRoomName, {
+                headers: {
+                    'Content-Type': 'text/plain'
+                }
+            })
+            .then(response => setData(response.data))
+            .catch(error => console.log("Error", error))
+        console.log(data)
+    }
 
     return (
         <StyledRoomsContainer>
-            <StyledRoomLink
-                to={"/colorSelection"}>
-                <StyledListItem>{props.children}</StyledListItem>
-            </StyledRoomLink>
-            <button onClick={deleteColorRoomSet}>delete</button>
+            {editMode ? (
+                <>
+                    <input type={"text"} value={newRoomName} onChange={handleInputChange}/>
+                    <button onClick={handleSaveEdit}>Save</button>
+                    <button onClick={handleCancelEdit}>Cancel</button>
+                </>
+            ) : (
+                <>
+                    <StyledRoomLink
+                        to={"/colorSelection"}>
+                        <StyledListItem>{props.children}</StyledListItem>
+                    </StyledRoomLink>
+                    <button onClick={deleteColorRoomSet}>delete</button>
+                    <button onClick={handleEditClick}>Edit</button>
+                </>
+            )
+            }
         </StyledRoomsContainer>
     )
 }
