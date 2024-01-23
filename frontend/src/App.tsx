@@ -9,7 +9,7 @@ function App() {
         <>
 
             <Routes>
-                <Route path={"/colorSelection"} element={<ColorSelection/>}/>
+                <Route path={"/colorSelection/room/:colorRoomSetId"} element={<ColorSelection/>}/>
                 <Route path={"/roomSelection"} element={<RoomSelection/>}/>
             </Routes>
 
