@@ -14,6 +14,15 @@ export default function CreateNewRoom(props: RoomProps) {
 
     const [data, setData] = useState<User>()
     const [roomName, setRoomName] = useState<string>("")
+    const [createMode, setCreateMode] = useState<boolean>(false);
+
+    function handleCreateClick() {
+        setCreateMode(true);
+    }
+
+    function handleCancelClick() {
+        setCreateMode(false);
+    }
 
     function saveNewColorRoomSet() {
         const defaultColorPalette: ColorPalette = {
@@ -46,29 +55,39 @@ export default function CreateNewRoom(props: RoomProps) {
         console.log(data)
 
     }
-        function handleSubmit(event: FormEvent<HTMLFormElement>) {
-            if (props.colorRoomSets.length < 5) {
-                event.preventDefault()
-                saveNewColorRoomSet()
-                setRoomName("")
-            } else {
-                alert("Sorry, the max number of rooms is 5")
-            }
-        }
 
-        function onInputName(event: ChangeEvent<HTMLInputElement>) {
-            setRoomName(event.target.value)
+    function handleSubmit(event: FormEvent<HTMLFormElement>) {
+        if (props.colorRoomSets.length < 5) {
+            event.preventDefault()
+            saveNewColorRoomSet()
+            setRoomName("")
+        } else {
+            alert("Sorry, the max number of rooms is 5")
         }
-
-        return (
-            <form onSubmit={handleSubmit}>
-                <label htmlFor={"roomName"}>Room Name</label>
-                <input id={"roomName"}
-                       type={"text"}
-                       value={roomName}
-                       onChange={onInputName}
-                />
-                <button type={"submit"}>Create</button>
-            </form>
-        )
     }
+
+    function onInputName(event: ChangeEvent<HTMLInputElement>) {
+        setRoomName(event.target.value)
+    }
+
+    return (
+        <>
+            {
+                createMode ? (
+                    <form onSubmit={handleSubmit}>
+                        <label htmlFor={"roomName"}>Room Name</label>
+                        <input id={"roomName"}
+                               type={"text"}
+                               value={roomName}
+                               onChange={onInputName}
+                        />
+                        <button type={"submit"}>Create</button>
+                        <button onClick={handleCancelClick}>Cancel</button>
+                    </form>
+                ) : (
+                    <button onClick={handleCreateClick}>Create Room</button>
+                )
+            }
+        </>
+    );
+}

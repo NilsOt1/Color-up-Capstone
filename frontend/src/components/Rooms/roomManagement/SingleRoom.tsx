@@ -15,7 +15,7 @@ export default function SingleRoom(props: ColorRoomSetProps) {
 
     const [editMode, setEditMode] = useState<boolean>(false);
     const [newRoomName, setNewRoomName] = useState<string>(props.colorRoomSet.room.roomName)
-    const [data, setData] = useState<User | null>([])
+    const [data, setData] = useState<User | null>(null)
 
     useEffect(() => {
 
@@ -31,7 +31,6 @@ export default function SingleRoom(props: ColorRoomSetProps) {
                 console.error("DELETE did not work:", error)
             })
     }
-
 
     function handleEditClick(): void {
         setEditMode(true)
