@@ -1,11 +1,18 @@
+import {Route, Routes} from 'react-router';
 import './App.css'
 import ColorSelection from "./pages/ColorSelection.tsx";
+import RoomSelection from "./pages/RoomSelection.tsx";
 
 function App() {
 
     return (
         <>
-            <ColorSelection/>
+
+            <Routes>
+                <Route path={"/color-selection/room/:colorRoomSetId"} element={<ColorSelection/>}/>
+                <Route path={"/room-selection"} element={<RoomSelection/>}/>
+            </Routes>
+
         </>
     )
 }
