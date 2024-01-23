@@ -17,15 +17,12 @@ export default function SingleRoom(props: ColorRoomSetProps) {
     const [newRoomName, setNewRoomName] = useState<string>(props.colorRoomSet.room.roomName)
     const [data, setData] = useState<User | null>(null)
 
-    useEffect(() => {
-
-    }, []);
-
     function deleteColorRoomSet(): void {
         axios
             .put("/api/user" + "/cf0ff01b-8d19-4211-9a0b-6eb0aeec165e" + "/delete-set/" + props.colorRoomSet.colorRoomSetId)
             .then(response => {
-                console.log("DELETE room successfull", response.data)
+                console.log("DELETE room successfull", response.data);
+                props.fetchAllColorRoomSets();
             })
             .catch(error => {
                 console.error("DELETE did not work:", error)
@@ -57,10 +54,18 @@ export default function SingleRoom(props: ColorRoomSetProps) {
                     'Content-Type': 'text/plain'
                 }
             })
-            .then(response => setData(response.data))
+            .then(response => {
+                setData(response.data)
+                props.fetchAllColorRoomSets()
+            })
+
             .catch(error => console.log("Error", error))
         console.log(data)
     }
+
+    useEffect(() => {
+
+    }, [props.colorRoomSet]);
 
     return (
         <StyledRoomsContainer>

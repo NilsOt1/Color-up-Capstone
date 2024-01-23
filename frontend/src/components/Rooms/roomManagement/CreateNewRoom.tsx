@@ -8,6 +8,7 @@ import {ColorRoomSet} from "../../../types/ColorRoomSet.ts";
 
 type RoomProps = {
     colorRoomSets: ColorRoomSet[]
+    fetchAllColorRoomSets: () => void
 }
 
 export default function CreateNewRoom(props: RoomProps) {
@@ -48,7 +49,10 @@ export default function CreateNewRoom(props: RoomProps) {
 
         axios
             .put("/api/user/cf0ff01b-8d19-4211-9a0b-6eb0aeec165e", createdColorRoomSetDto)
-            .then(response => setData(response.data))
+            .then(response => {
+                setData(response.data)
+                props.fetchAllColorRoomSets()
+            })
             .catch(error => {
                 console.error("Error", error)
             })

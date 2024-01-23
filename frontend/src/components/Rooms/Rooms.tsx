@@ -37,7 +37,7 @@ export default function Rooms() {
                     )
                 )}
             </StyledUl>
-            <CreateNewRoom colorRoomSets={colorRoomSets}/>
+            <CreateNewRoom colorRoomSets={colorRoomSets} fetchAllColorRoomSets={fetchAllColorRoomSets}/>
         </>
     )
 }
