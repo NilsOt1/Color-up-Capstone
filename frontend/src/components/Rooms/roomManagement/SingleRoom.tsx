@@ -18,15 +18,19 @@ export default function SingleRoom(props: ColorRoomSetProps) {
     const [data, setData] = useState<User | null>(null)
 
     function deleteColorRoomSet(): void {
-        axios
-            .put("/api/user" + "/cf0ff01b-8d19-4211-9a0b-6eb0aeec165e" + "/delete-set/" + props.colorRoomSet.colorRoomSetId)
-            .then(response => {
-                console.log("DELETE room successfull", response.data);
-                props.fetchAllColorRoomSets();
-            })
-            .catch(error => {
-                console.error("DELETE did not work:", error)
-            })
+
+        const shouldDelete = window.confirm("Are you sure you want to delete this room?");
+        if (shouldDelete) {
+            axios
+                .put("/api/user" + "/cf0ff01b-8d19-4211-9a0b-6eb0aeec165e" + "/delete-set/" + props.colorRoomSet.colorRoomSetId)
+                .then(response => {
+                    console.log("DELETE room successfull", response.data);
+                    props.fetchAllColorRoomSets();
+                })
+                .catch(error => {
+                    console.error("DELETE did not work:", error)
+                })
+        }
     }
 
     function handleEditClick(): void {
