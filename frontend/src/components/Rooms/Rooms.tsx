@@ -21,7 +21,6 @@ export default function Rooms() {
                 console.error("error information: ", error)
             })
     }
-
     return (
         <>
             <h1>Rooms</h1>
