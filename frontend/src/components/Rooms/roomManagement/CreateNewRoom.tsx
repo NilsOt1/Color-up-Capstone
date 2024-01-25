@@ -1,6 +1,5 @@
 import {ChangeEvent, FormEvent, useState} from "react";
 import axios from "axios";
-import {ColorPalette} from "../../../types/ColorPalette.ts";
 import {Room} from "../../../types/Room.ts";
 import {ColorRoomSetDto} from "../../../types/ColorRoomSetDto.ts";
 import {User} from "../../../types/User.ts";
@@ -26,25 +25,15 @@ export default function CreateNewRoom(props: Readonly<RoomProps>) {
     }
 
     function saveNewColorRoomSet() {
-        const defaultColorPalette: ColorPalette = {
-
-            result: [
-                [0, 0, 0],
-                [0, 0, 0],
-                [0, 0, 0],
-                [0, 0, 0],
-                [0, 0, 0],
-            ]
-        };
 
         const createdRoom: Room = {
-            roomId: "12",
+            roomId: roomName,
             roomName: roomName
         };
 
         const createdColorRoomSetDto: ColorRoomSetDto = {
             room: createdRoom,
-            savedColors: defaultColorPalette
+            savedColors: {result: []}
         };
 
         axios
