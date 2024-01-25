@@ -3,32 +3,39 @@ import {useEffect, useState} from "react";
 import {SingleColor} from "../types/SingleColor.ts";
 import {useParams} from "react-router";
 import {Room} from "../types/Room.ts";
+import {ColorPalette} from "../types/ColorPalette.ts";
+
 
 export default function Colors() {
 
-    const initialColorRoomSet = {
-        colorRoomSetId: "",
-        room: {
-            roomId: "",
-            roomName: "",
-        },
-        savedColors: [],
-    };
-
-    const [data, setData] = useState<SingleColor[] | null>(null)
-    const [savedColors, setSavedColors] = useState<SingleColor[] | string[] | (SingleColor | string)[]>([])
+    const [data, setData] = useState<SingleColor[]>([])
+    const [lockedColors, setLockedColors] = useState<SingleColor[] | SingleColor | []>([])
     const [colorRoomSet, setColorRoomSet] = useState<{
         colorRoomSetId: string,
         room: Room,
-        savedColors: SingleColor[]
-    }>(initialColorRoomSet)
+        savedColors: ColorPalette | []
+    }>({ colorRoomSetId: "", room: { roomId: "", roomName: "" }, savedColors: [] })
 
     const {colorRoomSetId} = useParams()
 
     useEffect(() => {
-        getColorRoomSetById();
+
         getRandomColors()
+
+        getColorRoomSetById()
     }, []);
+
+    function toggleLockColor(color: SingleColor | string) {
+        if (lockedColors?.includes(color)) {
+
+            const updatedColors: SingleColor[] | SingleColor | [] = lockedColors?.filter(savedColor =>
+                JSON.stringify(savedColor) !== JSON.stringify(color)
+            );
+            setLockedColors(updatedColors);
+        } else {
+            setLockedColors([...lockedColors, color]);
+        }
+    }
 
     function getRandomColors(): void {
 
@@ -57,14 +64,14 @@ export default function Colors() {
 
     function generateMatchingColors(): void {
 
-        const savedColorArray: SingleColor[] | string[] | (SingleColor | string)[] = [...savedColors]
+        const savedColorArray: SingleColor | string[] | (SingleColor | string)[] = [...lockedColors]
 
         while (savedColorArray.length < 5) {
             savedColorArray.push("N")
         }
 
         const requestBody: {
-            input: SingleColor[] | string[] | (SingleColor | string)[],
+            input: SingleColor | string[] | (SingleColor | string)[],
             model: string
         } = {
 
@@ -74,7 +81,7 @@ export default function Colors() {
 
         axios.post("/api/colors", requestBody)
             .then(response => {
-                const newColors = [...savedColors, ...response.data.result]
+                const newColors = [...lockedColors, ...response.data.result]
                 setData(newColors.slice(0, 5))
             })
             .catch(error => {
@@ -87,7 +94,8 @@ export default function Colors() {
             <button onClick={getRandomColors}>Get random Colors</button>
             <button onClick={generateMatchingColors}>Generate Colors</button>
 
-            {data?.map((color: SingleColor, index: number) => (
+            {(colorRoomSet.savedColors?.result?.length === 0 || !Array.isArray((colorRoomSet.savedColors?.result))) ? (
+                data?.map((color: SingleColor, index: number) => (
                     <div
                         key={index}
                         style={{
@@ -96,8 +104,24 @@ export default function Colors() {
                             height: '100px',
                         }}
                     >
+                        <button
+                            onClick={() => toggleLockColor(color)}>{lockedColors?.includes(color) ? "Unlock" : "Lock"}</button>
                     </div>
-                )
+                ))
+            ) : (
+                colorRoomSet.savedColors?.result?.map((color: SingleColor, index: number) => (
+                    <div
+                        key={index}
+                        style={{
+                            backgroundColor: `rgb(${color[0]}, ${color[1]}, ${color[2]})`,
+                            width: '100px',
+                            height: '100px',
+                        }}
+                    >
+                        <button
+                            onClick={() => toggleLockColor(color)}>{lockedColors?.includes(color) ? "Unlock" : "Lock"}</button>
+                    </div>
+                ))
             )}
         </>
     );
