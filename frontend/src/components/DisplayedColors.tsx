@@ -5,26 +5,35 @@ import {Room} from "../types/Room.ts";
 import {ColorPalette} from "../types/ColorPalette.ts";
 import LockColor from "./LockColor.tsx";
 import {useParams} from "react-router";
-
+import SaveButton from "./SaveButton.tsx";
 
 
 export default function DisplayedColors() {
 
-    const [data, setData] = useState<SingleColor[]>([])
+
     const [lockedColors, setLockedColors] = useState<SingleColor[] | SingleColor | []>([])
     const [colorRoomSet, setColorRoomSet] = useState<{
         colorRoomSetId: string,
         room: Room,
         savedColors: ColorPalette | []
-    }>({ colorRoomSetId: "", room: { roomId: "", roomName: "" }, savedColors: [] })
+    }>({colorRoomSetId: "", room: {roomId: "", roomName: ""}, savedColors: []})
+    const initialData: SingleColor[] =
+        [
+            [149, 52, 26],
+            [181, 173, 105],
+            [148, 115, 73],
+            [80, 36, 26],
+            [68, 19, 8]
+        ];
+    const [data, setData] = useState<SingleColor[] | undefined>([])
 
     const {colorRoomSetId} = useParams()
 
 
     useEffect(() => {
 
-        generateMatchingColors()
         getColorRoomSetById()
+
     }, []);
 
     function handleSetLockedColor(updateColor: SingleColor[] | SingleColor | []) {
@@ -63,6 +72,7 @@ export default function DisplayedColors() {
             .get("/api/user/cf0ff01b-8d19-4211-9a0b-6eb0aeec165e/color-room-sets/" + colorRoomSetId)
             .then(response => {
                 setColorRoomSet(response.data)
+                setData(response.data.savedColors.result.length != 0 ? response.data.savedColors.result : initialData);
             })
 
             .catch(error => {
@@ -70,42 +80,29 @@ export default function DisplayedColors() {
             })
     }
 
+    if (!data) {
+        return "loading...";
+    }
+
     return (
         <>
-            {(colorRoomSet.savedColors?.result?.length === 0 || !Array.isArray((colorRoomSet.savedColors?.result))) ? (
-                data?.map((color: SingleColor, index: number) => (
-                    <div
-                        key={index}
-                        style={{
-                            backgroundColor: `rgb(${color[0]}, ${color[1]}, ${color[2]})`,
-                            width: '100px',
-                            height: '100px',
-                        }}
-                    >
-                        <LockColor
-                            color={color}
-                            handleSetLockedColor={handleSetLockedColor}
-                            lockedColors={lockedColors}/>
-                    </div>
-                ))
-            ) : (
-                colorRoomSet.savedColors?.result?.map((color: SingleColor, index: number) => (
-                    <div
-                        key={index}
-                        style={{
-                            backgroundColor: `rgb(${color[0]}, ${color[1]}, ${color[2]})`,
-                            width: '100px',
-                            height: '100px',
-                        }}
-                    >
-                        <LockColor
-                            color={color}
-                            handleSetLockedColor={handleSetLockedColor}
-                            lockedColors={lockedColors}/>
-                    </div>
-                ))
-            )}
+            {data.map((color: SingleColor, index: number) => (
+                <div
+                    key={index}
+                    style={{
+                        backgroundColor: `rgb(${color[0]}, ${color[1]}, ${color[2]})`,
+                        width: '100px',
+                        height: '60px',
+                    }}
+                >
+                    <LockColor
+                        color={color}
+                        handleSetLockedColor={handleSetLockedColor}
+                        lockedColors={lockedColors}/>
+                </div>
+            ))}
             <button onClick={generateMatchingColors}>Generate Colors</button>
+            <SaveButton colorsToSave={data}/>
         </>
     );
 }
