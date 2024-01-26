@@ -45,6 +45,7 @@ export const StyledButtonContainer = styled.span`
 `;
 
 export const StyledBackLink = styled(Link)`
+  color: #fff;
   display: flex;
   justify-content: center;
   align-items: center;

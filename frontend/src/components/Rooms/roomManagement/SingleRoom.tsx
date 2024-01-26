@@ -17,6 +17,9 @@ export default function SingleRoom(props: Readonly<RoomProps>) {
     const [newRoomName, setNewRoomName] = useState<string>(props.colorRoomSet.room.roomName)
     const [data, setData] = useState<User | null>(null)
 
+    useEffect(() => {
+
+    }, [props.colorRoomSet]);
     function deleteColorRoomSet(): void {
 
         const shouldDelete = window.confirm("Are you sure you want to delete this room?");
@@ -66,10 +69,6 @@ export default function SingleRoom(props: Readonly<RoomProps>) {
             .catch(error => console.log("Error", error))
         console.log(data)
     }
-
-    useEffect(() => {
-
-    }, [props.colorRoomSet]);
 
     return (
         <StyledRoomsContainer>

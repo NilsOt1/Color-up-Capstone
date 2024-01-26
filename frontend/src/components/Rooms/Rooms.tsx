@@ -15,7 +15,7 @@ export default function Rooms() {
 
 
     function fetchAllColorRoomSets(): void {
-        axios.get("api/user/cf0ff01b-8d19-4211-9a0b-6eb0aeec165e/color-room-sets")
+        axios.get("/api/user/cf0ff01b-8d19-4211-9a0b-6eb0aeec165e/color-room-sets")
             .then(response => setColorRoomSets(response.data))
             .catch(error => {
                 console.error("error information: ", error)
