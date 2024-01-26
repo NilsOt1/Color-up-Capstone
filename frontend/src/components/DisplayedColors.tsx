@@ -1,29 +1,30 @@
 import axios from "axios";
-import {SetStateAction, useEffect, useRef, useState} from "react";
+import {useEffect, useState} from "react";
 import {SingleColor} from "../types/SingleColor.ts";
 import {Room} from "../types/Room.ts";
 import {ColorPalette} from "../types/ColorPalette.ts";
 import LockColor from "./LockColor.tsx";
+import {useParams} from "react-router";
 
 
-type ColorProps = {
-    colorRoomSet: {
-        colorRoomSetId: string,
-        room: Room,
-        savedColors: ColorPalette | []
-    }
-    getColorRoomSetById: () => void
-}
-export default function DisplayedColors(props: ColorProps) {
+
+export default function DisplayedColors() {
 
     const [data, setData] = useState<SingleColor[]>([])
     const [lockedColors, setLockedColors] = useState<SingleColor[] | SingleColor | []>([])
+    const [colorRoomSet, setColorRoomSet] = useState<{
+        colorRoomSetId: string,
+        room: Room,
+        savedColors: ColorPalette | []
+    }>({ colorRoomSetId: "", room: { roomId: "", roomName: "" }, savedColors: [] })
+
+    const {colorRoomSetId} = useParams()
 
 
     useEffect(() => {
 
         generateMatchingColors()
-        props.getColorRoomSetById()
+        getColorRoomSetById()
     }, []);
 
     function handleSetLockedColor(updateColor: SingleColor[] | SingleColor | []) {
@@ -57,43 +58,54 @@ export default function DisplayedColors(props: ColorProps) {
             });
     }
 
-        return (
-            <>
-                <button onClick={generateMatchingColors}>Generate Colors</button>
+    function getColorRoomSetById() {
+        axios
+            .get("/api/user/cf0ff01b-8d19-4211-9a0b-6eb0aeec165e/color-room-sets/" + colorRoomSetId)
+            .then(response => {
+                setColorRoomSet(response.data)
+            })
 
-                {(props.colorRoomSet.savedColors?.result?.length === 0 || !Array.isArray((props.colorRoomSet.savedColors?.result))) ? (
-                    data?.map((color: SingleColor, index: number) => (
-                        <div
-                            key={index}
-                            style={{
-                                backgroundColor: `rgb(${color[0]}, ${color[1]}, ${color[2]})`,
-                                width: '100px',
-                                height: '100px',
-                            }}
-                        >
-                            <LockColor
-                                color={color}
-                                handleSetLockedColor={handleSetLockedColor}
-                                lockedColors={lockedColors}/>
-                        </div>
-                    ))
-                ) : (
-                    props.colorRoomSet.savedColors?.result?.map((color: SingleColor, index: number) => (
-                        <div
-                            key={index}
-                            style={{
-                                backgroundColor:`rgb(${color[0]}, ${color[1]}, ${color[2]})`,
-                                width: '100px',
-                                height: '100px',
-                            }}
-                        >
-                            <LockColor
-                                color={color}
-                                handleSetLockedColor={handleSetLockedColor}
-                                lockedColors={lockedColors}/>
-                        </div>
-                    ))
-                )}
-            </>
-        );
+            .catch(error => {
+                console.error("Error", error)
+            })
     }
+
+    return (
+        <>
+            {(colorRoomSet.savedColors?.result?.length === 0 || !Array.isArray((colorRoomSet.savedColors?.result))) ? (
+                data?.map((color: SingleColor, index: number) => (
+                    <div
+                        key={index}
+                        style={{
+                            backgroundColor: `rgb(${color[0]}, ${color[1]}, ${color[2]})`,
+                            width: '100px',
+                            height: '100px',
+                        }}
+                    >
+                        <LockColor
+                            color={color}
+                            handleSetLockedColor={handleSetLockedColor}
+                            lockedColors={lockedColors}/>
+                    </div>
+                ))
+            ) : (
+                colorRoomSet.savedColors?.result?.map((color: SingleColor, index: number) => (
+                    <div
+                        key={index}
+                        style={{
+                            backgroundColor: `rgb(${color[0]}, ${color[1]}, ${color[2]})`,
+                            width: '100px',
+                            height: '100px',
+                        }}
+                    >
+                        <LockColor
+                            color={color}
+                            handleSetLockedColor={handleSetLockedColor}
+                            lockedColors={lockedColors}/>
+                    </div>
+                ))
+            )}
+            <button onClick={generateMatchingColors}>Generate Colors</button>
+        </>
+    );
+}
