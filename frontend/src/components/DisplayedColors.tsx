@@ -1,5 +1,5 @@
 import axios from "axios";
-import {useEffect, useState} from "react";
+import {SetStateAction, useEffect, useState} from "react";
 import {SingleColor} from "../types/SingleColor.ts";
 import {Room} from "../types/Room.ts";
 import {ColorPalette} from "../types/ColorPalette.ts";
@@ -7,8 +7,8 @@ import LockColor from "./LockColor.tsx";
 import {useParams} from "react-router";
 import SaveButton from "./SaveButton.tsx";
 import styled from "styled-components";
-import {RgbStringColorPicker} from "react-colorful";
 import HexCode from "./HexCode.tsx";
+import ColorPicker from "./ColorPicker.tsx";
 
 
 export default function DisplayedColors() {
@@ -29,7 +29,7 @@ export default function DisplayedColors() {
             [68, 19, 8]
         ];
     const [data, setData] = useState<SingleColor[] | undefined>(initialData)
-    const [activeColorIndex, setActiveColorIndex] = useState(-1);
+    const [activeColorIndex, setActiveColorIndex] = useState<number>(-1);
 
 
     const {colorRoomSetId} = useParams()
@@ -85,17 +85,8 @@ export default function DisplayedColors() {
             })
     }
 
-    function handleColorChange(colorString: string, index: number) {
-        const colorArray = colorString
-            .substring(4, colorString.length - 1)
-            .split(",")
-            .map(singleString => parseInt(singleString.trim(), 10));
-
-        setData(prevData => {
-            const updatedData = [...prevData];
-            updatedData[index] = colorArray;
-            return updatedData;
-        });
+    function handleSetData(data: SetStateAction<SingleColor[] | undefined>) {
+        setData(data)
     }
 
     function handleDivClick(index: number) {
@@ -114,15 +105,11 @@ export default function DisplayedColors() {
                     <StyledColorDiv
                         style={{
                             backgroundColor: `rgb(${color[0]}, ${color[1]}, ${color[2]})`
-
                         }}
                         onClick={() => handleDivClick(index)}
                     >
                         {activeColorIndex === index && (
-                            <RgbStringColorPicker
-                                color={`rgb(${color[0]}, ${color[1]}, ${color[2]})`}
-                                onChange={(newColor) => handleColorChange(newColor, index)}
-                            />
+                            <ColorPicker handleSetData={handleSetData} color={color} index={index}/>
                         )}
                     </StyledColorDiv>
 
