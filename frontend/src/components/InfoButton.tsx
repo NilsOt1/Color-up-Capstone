@@ -1,8 +1,7 @@
 import {useState} from "react";
-import {Link} from "react-router-dom";
 import styled from "styled-components";
 
-export default function ButtonBar() {
+export default function InfoButton() {
 
     const [showInfo, setShowInfo] = useState<boolean>(false);
 
@@ -24,35 +23,24 @@ export default function ButtonBar() {
                 <StyledInfoText
                     onClick={handleCloseInfo}
                     $show={showInfo.toString()}>
-                    How to ColorUP? - It`s a piece of cake. You simply choose three colors
-                    that are very prominent in your room and then press the button.
+                    How to ColorUP? - It`s a piece of cake. You simply choose some colors
+                    that are very prominent in your room, lock them and then press the button.
                 </StyledInfoText>
             ) : null}
 
-            <StyledButtonContainer>
-                <StyledBackLink to={"/room-selection"}>Back</StyledBackLink>
-                <StyledInfoButton onClick={handleToggleInfo}>i</StyledInfoButton>
-            </StyledButtonContainer>
+                <StyledInfoButton onClick={handleToggleInfo}>?</StyledInfoButton>
         </>
     )
 }
-
-export const StyledButtonContainer = styled.span`
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  margin: 5px 20px 20px 0;
-`;
-
-
 
 export const StyledInfoText = styled.div`
   position: absolute;
   top: 40px;
   left: 50%;
   transform: translateX(-50%);
-  padding: 10px;
-  background-color: #000;
+  padding: 8px;
+  background-color: #4b4b4b;
+  color: #a8a8a8;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: ${(props) => (props.$show ? "block" : "none")};
@@ -66,19 +54,10 @@ export const StyledInfoText = styled.div`
     font-weight: 400;
   }
 `
-export const StyledBackLink = styled(Link)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: solid 1px;
-  border-radius: 30px;
-  height: 60px;
-  width: 60px;
-`;
 
 export const StyledInfoButton = styled.button`
   border-radius: 30px;
-  height: 60px;
-  width: 60px;
+  height: 30px;
+  width: 30px;
   font-size: 1.5em;
 `;

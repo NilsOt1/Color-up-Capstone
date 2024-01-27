@@ -57,7 +57,7 @@ export default function RoomDropDown() {
 
 const StyledHeading = styled.h1`
   text-align: center;
-  font-size: 3.5em;
+  font-size: 2.5em;
   font-weight: 100;
   color: #BBBBBBFF;
   margin: 20px 0px 10px 0px;
@@ -67,12 +67,12 @@ const StyledHeading = styled.h1`
 
 const StyledDropDown = styled.select`
   text-align: center;
-  font-size: 2.5em;
+  font-size: 1.5em;
   font-weight: 100;
   margin: 40px 0px 20px 50px;
   color: #5B5B5BFF;
   text-decoration: underline;
-  text-decoration-thickness: 1px;
+  text-decoration-thickness: 0.5px;
   background-color: #BBBBBBFF;
   border-radius: 10px;
 `
