@@ -7,6 +7,7 @@ import LockColor from "./LockColor.tsx";
 import {useParams} from "react-router";
 import SaveButton from "./SaveButton.tsx";
 import styled from "styled-components";
+import {RgbStringColorPicker} from "react-colorful";
 
 
 export default function DisplayedColors() {
@@ -26,7 +27,9 @@ export default function DisplayedColors() {
             [80, 36, 26],
             [68, 19, 8]
         ];
-    const [data, setData] = useState<SingleColor[] | undefined>([])
+    const [data, setData] = useState<SingleColor[] | undefined>(initialData)
+    const [activeColorIndex, setActiveColorIndex] = useState(-1);
+
 
     const {colorRoomSetId} = useParams()
 
@@ -81,6 +84,23 @@ export default function DisplayedColors() {
             })
     }
 
+    function handleColorChange(colorString: string, index: number) {
+        const colorArray = colorString
+            .substring(4, colorString.length - 1)
+            .split(",")
+            .map(singleString => parseInt(singleString.trim(), 10));
+
+        setData(prevData => {
+            const updatedData = [...prevData];
+            updatedData[index] = colorArray;
+            return updatedData;
+        });
+    }
+
+    function handleDivClick(index: number) {
+        setActiveColorIndex(index === activeColorIndex ? -1 : index);
+    }
+
     if (!data) {
         return "loading...";
     }
@@ -88,13 +108,23 @@ export default function DisplayedColors() {
     return (
         <>
             {data.map((color: SingleColor, index: number) => (
-                <StyledDivContainer>
+                <StyledDivContainer
+                    key={index}>
                     <StyledColorDiv
-                        key={index}
                         style={{
                             backgroundColor: `rgb(${color[0]}, ${color[1]}, ${color[2]})`
+
                         }}
-                    />
+                        onClick={() => handleDivClick(index)}
+                    >
+                        {activeColorIndex === index && (
+                            <RgbStringColorPicker
+                                color={`rgb(${color[0]}, ${color[1]}, ${color[2]})`}
+                                onChange={(newColor) => handleColorChange(newColor, index)}
+                            />
+                        )}
+                    </StyledColorDiv>
+
                     <LockColor
                         color={color}
                         handleSetLockedColor={handleSetLockedColor}
@@ -108,7 +138,7 @@ export default function DisplayedColors() {
 }
 
 const StyledDivContainer = styled.div`
-display: flex;
+  display: flex;
 `
 
 const StyledColorDiv = styled.div`
