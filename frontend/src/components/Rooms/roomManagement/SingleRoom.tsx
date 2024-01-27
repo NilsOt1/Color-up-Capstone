@@ -1,9 +1,11 @@
 import {Link} from "react-router-dom";
 import {ColorRoomSet} from "../../../types/ColorRoomSet.ts";
-import {ChangeEvent, ReactNode, useEffect, useState} from "react";
+import {ChangeEvent, ReactNode, useState} from "react";
 import styled from "styled-components";
 import axios from "axios";
 import {User} from "../../../types/User.ts";
+import Trash from "../../../assets/Trash.svg";
+import pen from "../../../assets/pen.svg";
 
 
 type RoomProps = {
@@ -17,15 +19,13 @@ export default function SingleRoom(props: Readonly<RoomProps>) {
     const [newRoomName, setNewRoomName] = useState<string>(props.colorRoomSet.room.roomName)
     const [data, setData] = useState<User | null>(null)
 
-    useEffect(() => {
 
-    }, [props.colorRoomSet]);
     function deleteColorRoomSet(): void {
 
         const shouldDelete = window.confirm("Are you sure you want to delete this room?");
         if (shouldDelete) {
             axios
-                .put("/api/user" + "/cf0ff01b-8d19-4211-9a0b-6eb0aeec165e" + "/delete-set/" + props.colorRoomSet.colorRoomSetId)
+                .put("/api/user" + "/cf0ff01b-8d19-4211-9a0b-6eb0aeec165e/delete-set/" + props.colorRoomSet.colorRoomSetId)
                 .then(response => {
                     console.log("DELETE room successfully", response.data);
                     props.fetchAllColorRoomSets();
@@ -67,7 +67,6 @@ export default function SingleRoom(props: Readonly<RoomProps>) {
             })
 
             .catch(error => console.log("Error", error))
-        console.log(data)
     }
 
     return (
@@ -84,8 +83,15 @@ export default function SingleRoom(props: Readonly<RoomProps>) {
                         to={`/color-selection/room/${props.colorRoomSet.colorRoomSetId}`}>
                         <StyledListItem>{props.children}</StyledListItem>
                     </StyledRoomLink>
-                    <button onClick={deleteColorRoomSet}>delete</button>
-                    <button onClick={handleEditClick}>Edit</button>
+
+                    <StyledButton onClick={deleteColorRoomSet}>
+                        <img alt={"trashIcon"} src={Trash} />
+                    </StyledButton>
+
+                    <StyledButton onClick={handleEditClick}>
+                        <img alt={"penIcon"} src={pen} />
+                    </StyledButton>
+
                 </>
             )
             }
@@ -106,10 +112,14 @@ export const StyledListItem = styled.li`
 
 export const StyledRoomLink = styled(Link)`
   text-decoration: none;
-  color: #ffffff;
+  border: none
 `;
 
 export const StyledRoomsContainer = styled.span`
   display: flex;
   align-items: center;
 `;
+
+const StyledButton = styled.button`
+  border: none;
+`

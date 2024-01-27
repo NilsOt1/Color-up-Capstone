@@ -1,4 +1,8 @@
 import {SingleColor} from "../types/SingleColor.ts";
+import lockOpen from "../assets/lockOpen.svg";
+import lockClose from "../assets/lockClose.svg";
+import styled from "styled-components";
+
 
 type DisplayedColorProps = {
     color: SingleColor
@@ -21,8 +25,15 @@ export default function LockColor(props:DisplayedColorProps) {
     }
     return (
         <>
-            <button
-                onClick={() => toggleLockColor(props.color)}>{props.lockedColors?.includes(props.color) ? "Unlock" : "Lock"}</button>
+            <StyledLockButton
+                onClick={() => toggleLockColor(props.color)}>{props.lockedColors?.includes(props.color) ? <img alt={"lockOpenIcon"} src={lockOpen}/> : <img alt={"lockCloseIcon"} src={lockClose}/>}</StyledLockButton>
         </>
     )
 }
+
+const StyledLockButton = styled.button`
+    border: none;
+  height: 40px;
+  width: 70px;
+    
+`
