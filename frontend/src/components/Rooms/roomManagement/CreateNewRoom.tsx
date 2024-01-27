@@ -4,6 +4,7 @@ import {Room} from "../../../types/Room.ts";
 import {ColorRoomSetDto} from "../../../types/ColorRoomSetDto.ts";
 import {User} from "../../../types/User.ts";
 import {ColorRoomSet} from "../../../types/ColorRoomSet.ts";
+import styled from "styled-components";
 
 type RoomProps = {
     colorRoomSets: ColorRoomSet[]
@@ -78,9 +79,23 @@ export default function CreateNewRoom(props: Readonly<RoomProps>) {
                         <button onClick={handleCancelClick}>Cancel</button>
                     </form>
                 ) : (
-                    <button onClick={handleCreateClick}>Create Room</button>
+                    <StyledNewRoomButton onClick={handleCreateClick}>+</StyledNewRoomButton>
                 )
             }
         </>
     );
 }
+
+const StyledNewRoomButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 40px auto;
+  height: 50px;
+  width: 50px;
+  box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.2);
+  font-size: 2.5em;
+  font-weight: 200;
+  border: solid 1px;
+  border-radius: 30px;
+`;

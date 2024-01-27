@@ -23,13 +23,12 @@ export default function SaveButton(props: ColorsProps) {
                     'Content-Type': 'application/json',
                 },
             })
-            .then(response => console.log(response.data))
             .catch(error => console.log("Error", error))
     }
 
     return (
         <>
-        <button onClick={updateColorPalette}>Save Colors</button>
+        <button onClick={updateColorPalette}>Save</button>
         </>
     )
 }

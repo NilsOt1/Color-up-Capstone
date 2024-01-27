@@ -3,6 +3,7 @@ import {ChangeEvent, useEffect, useState} from "react";
 import {ColorRoomSet} from "../../../types/ColorRoomSet.ts";
 import {useNavigate} from "react-router-dom";
 import {useParams} from "react-router";
+import styled from "styled-components";
 
 
 export default function RoomDropDown() {
@@ -37,21 +38,41 @@ export default function RoomDropDown() {
 
     const currentRoom: ColorRoomSet | undefined = colorRoomSets.find((room: ColorRoomSet) => room.colorRoomSetId === colorRoomSetId);
 
-    console.log(showRoom)
-
     return (
         <div>
             {showRoom ?
-                (<h1 onClick={(handleShowRoom)}>{`${currentRoom?.room?.roomName}`}</h1>
+                (<StyledHeading onClick={(handleShowRoom)}>{`${currentRoom?.room?.roomName}`}</StyledHeading>
                 ) : (
-                    <select onChange={handleSelectChange} value={currentRoom?.colorRoomSetId}>
+                    <StyledDropDown onChange={handleSelectChange} value={currentRoom?.colorRoomSetId}>
                         {colorRoomSets.map((room: ColorRoomSet) => (
                             <option key={room.colorRoomSetId} value={room.colorRoomSetId}
                                     onClick={() => setShowRoom(false)}>{room.room.roomName}
                             </option>
                         ))}
-                    </select>)
+                    </StyledDropDown>)
             }
         </div>
-    );
+    )
 }
+
+const StyledHeading = styled.h1`
+  text-align: center;
+  font-size: 3.5em;
+  font-weight: 100;
+  color: #BBBBBBFF;
+  margin: 20px 0px 10px 0px;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+`
+
+const StyledDropDown = styled.select`
+  text-align: center;
+  font-size: 2.5em;
+  font-weight: 100;
+  margin: 40px 0px 20px 50px;
+  color: #5B5B5BFF;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  background-color: #BBBBBBFF;
+  border-radius: 10px;
+`

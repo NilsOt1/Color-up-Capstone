@@ -23,7 +23,7 @@ export default function Rooms() {
     }
     return (
         <>
-            <h1>Rooms</h1>
+            <StyledHeading>Rooms</StyledHeading>
             <StyledUl>
                 {colorRoomSets.map(set => (
                         <SingleRoom
@@ -45,3 +45,12 @@ const StyledUl = styled.ul`
   display: flex;
   flex-direction: column;
 `;
+
+const StyledHeading = styled.h1`
+  text-align: center;
+  font-size: 3.5em;
+  font-weight: 100;
+  margin: 50px 0px 20px 0px;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+`

@@ -31,7 +31,7 @@ export default function ButtonBar() {
 
             <StyledButtonContainer>
                 <StyledBackLink to={"/room-selection"}>Back</StyledBackLink>
-                <button onClick={handleToggleInfo}>i</button>
+                <StyledInfoButton onClick={handleToggleInfo}>i</StyledInfoButton>
             </StyledButtonContainer>
         </>
     )
@@ -40,20 +40,11 @@ export default function ButtonBar() {
 export const StyledButtonContainer = styled.span`
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin: 5px 20px 0 0;
+  justify-content: space-around;
+  margin: 5px 20px 20px 0;
 `;
 
-export const StyledBackLink = styled(Link)`
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: solid 1px;
-  border-radius: 30px;
-  height: 60px;
-  width: 60px;
-`;
+
 
 export const StyledInfoText = styled.div`
   position: absolute;
@@ -74,4 +65,20 @@ export const StyledInfoText = styled.div`
     font-size: 16px;
     font-weight: 400;
   }
+`
+export const StyledBackLink = styled(Link)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: solid 1px;
+  border-radius: 30px;
+  height: 60px;
+  width: 60px;
+`;
+
+export const StyledInfoButton = styled.button`
+  border-radius: 30px;
+  height: 60px;
+  width: 60px;
+  font-size: 1.5em;
 `;
