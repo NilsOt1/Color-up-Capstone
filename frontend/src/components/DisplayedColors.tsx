@@ -6,6 +6,7 @@ import {ColorPalette} from "../types/ColorPalette.ts";
 import LockColor from "./LockColor.tsx";
 import {useParams} from "react-router";
 import SaveButton from "./SaveButton.tsx";
+import styled from "styled-components";
 
 
 export default function DisplayedColors() {
@@ -87,22 +88,32 @@ export default function DisplayedColors() {
     return (
         <>
             {data.map((color: SingleColor, index: number) => (
-                <div
-                    key={index}
-                    style={{
-                        backgroundColor: `rgb(${color[0]}, ${color[1]}, ${color[2]})`,
-                        width: '100px',
-                        height: '60px',
-                    }}
-                >
+                <StyledDivContainer>
+                    <StyledColorDiv
+                        key={index}
+                        style={{
+                            backgroundColor: `rgb(${color[0]}, ${color[1]}, ${color[2]})`
+                        }}
+                    />
                     <LockColor
                         color={color}
                         handleSetLockedColor={handleSetLockedColor}
                         lockedColors={lockedColors}/>
-                </div>
+                </StyledDivContainer>
             ))}
             <button onClick={generateMatchingColors}>Generate Colors</button>
             <SaveButton colorsToSave={data}/>
         </>
     );
 }
+
+const StyledDivContainer = styled.div`
+display: flex;
+`
+
+const StyledColorDiv = styled.div`
+  height: 100px;
+  width: 230px;
+  margin-left: 20px;
+  margin-right: 20px;
+`
