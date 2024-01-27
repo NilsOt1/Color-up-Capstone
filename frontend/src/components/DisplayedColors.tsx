@@ -8,6 +8,7 @@ import {useParams} from "react-router";
 import SaveButton from "./SaveButton.tsx";
 import styled from "styled-components";
 import {RgbStringColorPicker} from "react-colorful";
+import HexCode from "./HexCode.tsx";
 
 
 export default function DisplayedColors() {
@@ -129,6 +130,7 @@ export default function DisplayedColors() {
                         color={color}
                         handleSetLockedColor={handleSetLockedColor}
                         lockedColors={lockedColors}/>
+                    <HexCode color={color}/>
                 </StyledDivContainer>
             ))}
             <button onClick={generateMatchingColors}>Generate Colors</button>
