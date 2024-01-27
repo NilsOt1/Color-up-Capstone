@@ -146,4 +146,5 @@ const StyledColorDiv = styled.div`
   width: 230px;
   margin-left: 20px;
   margin-right: 20px;
+  transition: background-color 1s ease-in;
 `
