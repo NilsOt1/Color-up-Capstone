@@ -26,7 +26,7 @@ export default function LockColor(props:DisplayedColorProps) {
     return (
         <>
             <StyledLockButton
-                onClick={() => toggleLockColor(props.color)}>{props.lockedColors?.includes(props.color) ? <img alt={"lockOpenIcon"} src={lockOpen}/> : <img alt={"lockCloseIcon"} src={lockClose}/>}</StyledLockButton>
+                onClick={() => toggleLockColor(props.color)}>{props.lockedColors?.includes(props.color) ? <img alt={"lockCloseIcon"} src={lockClose}/> : <img alt={"lockOpenIcon"} src={lockOpen}/>}</StyledLockButton>
         </>
     )
 }

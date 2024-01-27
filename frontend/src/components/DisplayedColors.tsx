@@ -112,12 +112,13 @@ export default function DisplayedColors() {
                             <ColorPicker handleSetData={handleSetData} color={color} index={index}/>
                         )}
                     </StyledColorDiv>
-
-                    <LockColor
-                        color={color}
-                        handleSetLockedColor={handleSetLockedColor}
-                        lockedColors={lockedColors}/>
-                    <HexCode color={color}/>
+                    <StyledLockHexContainer>
+                        <LockColor
+                            color={color}
+                            handleSetLockedColor={handleSetLockedColor}
+                            lockedColors={lockedColors}/>
+                        <HexCode color={color}/>
+                    </StyledLockHexContainer>
                 </StyledDivContainer>
             ))}
             <button onClick={generateMatchingColors}>Generate Colors</button>
@@ -136,4 +137,11 @@ const StyledColorDiv = styled.div`
   margin-left: 20px;
   margin-right: 20px;
   transition: background-color 1s ease-in;
+`
+
+const StyledLockHexContainer = styled.span`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
 `
