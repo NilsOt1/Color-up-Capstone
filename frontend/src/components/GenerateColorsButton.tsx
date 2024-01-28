@@ -1,6 +1,6 @@
 import {SingleColor} from "../types/SingleColor.ts";
 import axios from "axios";
-import loading1 from "../assets/loading1.svg";
+import loading from "../assets/loading.svg";
 import {SetStateAction, useState} from "react";
 import styled from "styled-components";
 
@@ -48,7 +48,7 @@ export default function GenerateColorsButton(props:displayedColorsProps) {
 
     return (
         <StyledGenerateButton onClick={generateMatchingColors}>
-            {showSpinner ? <img src={loading1} alt="loading Icon" height={20}/> : "Generate"}
+            {showSpinner ? <img src={loading} alt="loading Icon" height={30}/> : "Generate"}
         </StyledGenerateButton>
     )
 }
