@@ -1,25 +1,18 @@
 import axios from "axios";
 import {SetStateAction, useEffect, useState} from "react";
 import {SingleColor} from "../types/SingleColor.ts";
-import {Room} from "../types/Room.ts";
-import {ColorPalette} from "../types/ColorPalette.ts";
 import LockColor from "./LockColor.tsx";
 import {useParams} from "react-router";
 import SaveButton from "./SaveButton.tsx";
 import styled from "styled-components";
 import HexCode from "./HexCode.tsx";
 import ColorPicker from "./ColorPicker.tsx";
-
+import GenerateColorsButton from "./GenerateColorsButton.tsx";
 
 export default function DisplayedColors() {
 
-
+    const [activeColorIndex, setActiveColorIndex] = useState<number>(-1);
     const [lockedColors, setLockedColors] = useState<SingleColor[] | SingleColor | []>([])
-    const [colorRoomSet, setColorRoomSet] = useState<{
-        colorRoomSetId: string,
-        room: Room,
-        savedColors: ColorPalette | []
-    }>({colorRoomSetId: "", room: {roomId: "", roomName: ""}, savedColors: []})
     const initialData: SingleColor[] =
         [
             [149, 52, 26],
@@ -28,56 +21,23 @@ export default function DisplayedColors() {
             [80, 36, 26],
             [68, 19, 8]
         ];
-    const [data, setData] = useState<SingleColor[] | undefined>(initialData)
-    const [activeColorIndex, setActiveColorIndex] = useState<number>(-1);
-
+    const [savedColors, setSavedColors] = useState<SingleColor[] | undefined>(initialData)
 
     const {colorRoomSetId} = useParams()
 
-
     useEffect(() => {
-
         getColorRoomSetById()
-
     }, []);
 
     function handleSetLockedColor(updateColor: SingleColor[] | SingleColor | []) {
         setLockedColors(updateColor)
     }
 
-    function generateMatchingColors(): void {
-
-        const savedColorArray: SingleColor | string[] | (SingleColor | string)[] = [...lockedColors]
-
-        while (savedColorArray.length < 5) {
-            savedColorArray.push("N")
-        }
-
-        const requestBody: {
-            input: SingleColor | string[] | (SingleColor | string)[],
-            model: string
-        } = {
-
-            input: savedColorArray,
-            model: 'default'
-        }
-
-        axios.post("/api/colors", requestBody)
-            .then(response => {
-                const newColors = [...lockedColors, ...response.data.result]
-                setData(newColors.slice(0, 5))
-            })
-            .catch(error => {
-                console.error('Error fetching', error);
-            });
-    }
-
     function getColorRoomSetById() {
         axios
             .get("/api/user/cf0ff01b-8d19-4211-9a0b-6eb0aeec165e/color-room-sets/" + colorRoomSetId)
             .then(response => {
-                setColorRoomSet(response.data)
-                setData(response.data.savedColors.result.length != 0 ? response.data.savedColors.result : initialData);
+                setSavedColors(response.data.savedColors.result.length != 0 ? response.data.savedColors.result : initialData);
             })
 
             .catch(error => {
@@ -85,21 +45,21 @@ export default function DisplayedColors() {
             })
     }
 
-    function handleSetData(data: SetStateAction<SingleColor[] | undefined>) {
-        setData(data)
+    function handleSetSavedColors(color: SetStateAction<SingleColor[] | undefined>) {
+        setSavedColors(color)
     }
 
     function handleDivClick(index: number) {
         setActiveColorIndex(index === activeColorIndex ? -1 : index);
     }
 
-    if (!data) {
+    if (!savedColors) {
         return "loading...";
     }
 
     return (
         <>
-            {data.map((color: SingleColor, index: number) => (
+            {savedColors.map((color: SingleColor, index: number) => (
                 <StyledDivContainer
                     key={index}>
                     <StyledColorDiv
@@ -109,7 +69,7 @@ export default function DisplayedColors() {
                         onClick={() => handleDivClick(index)}
                     >
                         {activeColorIndex === index && (
-                            <ColorPicker handleSetData={handleSetData} color={color} index={index}/>
+                            <ColorPicker handleSetSavedColors={handleSetSavedColors} color={color} index={index}/>
                         )}
                     </StyledColorDiv>
                     <StyledLockHexContainer>
@@ -121,8 +81,10 @@ export default function DisplayedColors() {
                     </StyledLockHexContainer>
                 </StyledDivContainer>
             ))}
-            <button onClick={generateMatchingColors}>Generate Colors</button>
-            <SaveButton colorsToSave={data}/>
+            <StyledButtonContainer>
+                <GenerateColorsButton lockedColors={lockedColors} handleSetSavedColors={handleSetSavedColors}/>
+                <SaveButton colorsToSave={savedColors}/>
+            </StyledButtonContainer>
         </>
     );
 }
@@ -145,3 +107,10 @@ const StyledLockHexContainer = styled.span`
   justify-content: center;
   align-items: start;
 `
+
+const StyledButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-around;
+  margin-top: 5px;
+`
+
