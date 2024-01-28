@@ -27,7 +27,7 @@ export default function DisplayedColors() {
 
     useEffect(() => {
         getColorRoomSetById()
-    });
+    }, []);
 
     function handleSetLockedColor(updateColor: SingleColor[] | SingleColor | []) {
         setLockedColors(updateColor)

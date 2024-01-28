@@ -88,7 +88,8 @@ export default function SingleRoom(props: Readonly<RoomProps>) {
                     </StyledButton>
 
                 </>
-            )}
+            )
+            }
         </StyledRoomsContainer>
     )
 }
@@ -96,6 +97,7 @@ export default function SingleRoom(props: Readonly<RoomProps>) {
 export const StyledListItem = styled.li`
   list-style-type: none;
   left: 600px;
+
   border: 0.5px solid;
   border-radius: 10px;
   padding: 10px 20px;
