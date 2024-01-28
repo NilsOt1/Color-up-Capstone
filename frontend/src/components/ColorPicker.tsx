@@ -1,8 +1,9 @@
 import {RgbStringColorPicker} from "react-colorful";
 import {SingleColor} from "../types/SingleColor.ts";
+import {SetStateAction} from "react";
 
 type colorProps = {
-    handleSetData: (prevData: (prevData: never) => number[][]) => void
+    handleSetSavedColors: (color: SetStateAction<SingleColor[] | undefined>) => void
     color:SingleColor
     index:number
 }
@@ -15,10 +16,10 @@ export default function ColorPicker(props:colorProps) {
             .split(",")
             .map(singleString => parseInt(singleString.trim(), 10));
 
-        props.handleSetData(prevData => {
-            const updatedData:number[][] = [...prevData];
-            updatedData[index] = colorArray;
-            return updatedData;
+        props.handleSetSavedColors(prevData => {
+            const updatedSavedColors:SingleColor[] = [...prevData];
+            updatedSavedColors[index] = colorArray;
+            return updatedSavedColors;
         });
     }
 

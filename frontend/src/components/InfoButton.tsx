@@ -22,7 +22,7 @@ export default function InfoButton() {
             {showInfo ? (
                 <StyledInfoText
                     onClick={handleCloseInfo}
-                    $show={showInfo.toString()}>
+                    data-show={showInfo.toString()}>
                     How to ColorUP? - It`s a piece of cake. You simply choose some colors
                     that are very prominent in your room, lock them and then press the button.
                 </StyledInfoText>
@@ -43,7 +43,7 @@ export const StyledInfoText = styled.div`
   color: #a8a8a8;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  display: ${(props) => (props.$show ? "block" : "none")};
+  display: ${(props) => (props["data-show"] === "true" ? "block" : "none")};
 
   &::before {
     content: "x";

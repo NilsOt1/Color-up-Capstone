@@ -1,6 +1,7 @@
 import axios from "axios";
 import {useParams} from "react-router";
 import {SingleColor} from "../types/SingleColor.ts";
+import styled from "styled-components";
 
 type ColorsProps = {
     colorsToSave: SingleColor[]
@@ -28,8 +29,16 @@ export default function SaveButton(props: ColorsProps) {
 
     return (
         <>
-        <button onClick={updateColorPalette}>Save</button>
+            <StyledSaveButton onClick={updateColorPalette}>Save</StyledSaveButton>
         </>
     )
 }
+const StyledSaveButton = styled.button`
+display: flex;
+  border: 0.5px solid;
+  border-radius: 5px;
+  font-size: 1.3em;
+  font-weight: 100;
+  padding: 5px 10px;
 
+`

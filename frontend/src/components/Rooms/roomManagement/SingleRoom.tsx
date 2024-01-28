@@ -3,10 +3,8 @@ import {ColorRoomSet} from "../../../types/ColorRoomSet.ts";
 import {ChangeEvent, ReactNode, useState} from "react";
 import styled from "styled-components";
 import axios from "axios";
-import {User} from "../../../types/User.ts";
-import Trash from "../../../assets/Trash.svg";
+import trash from "../../../assets/trash.svg";
 import pen from "../../../assets/pen.svg";
-
 
 type RoomProps = {
     colorRoomSet: ColorRoomSet
@@ -17,15 +15,13 @@ export default function SingleRoom(props: Readonly<RoomProps>) {
 
     const [editMode, setEditMode] = useState<boolean>(false);
     const [newRoomName, setNewRoomName] = useState<string>(props.colorRoomSet.room.roomName)
-    const [data, setData] = useState<User | null>(null)
-
 
     function deleteColorRoomSet(): void {
 
         const shouldDelete = window.confirm("Are you sure you want to delete this room?");
         if (shouldDelete) {
             axios
-                .put("/api/user" + "/cf0ff01b-8d19-4211-9a0b-6eb0aeec165e/delete-set/" + props.colorRoomSet.colorRoomSetId)
+                .put("/api/user/cf0ff01b-8d19-4211-9a0b-6eb0aeec165e/delete-set/" + props.colorRoomSet.colorRoomSetId)
                 .then(response => {
                     console.log("DELETE room successfully", response.data);
                     props.fetchAllColorRoomSets();
@@ -61,9 +57,8 @@ export default function SingleRoom(props: Readonly<RoomProps>) {
                     'Content-Type': 'text/plain'
                 }
             })
-            .then(response => {
-                setData(response.data)
-                props.fetchAllColorRoomSets()
+            .then(() => {
+                props.fetchAllColorRoomSets();
             })
 
             .catch(error => console.log("Error", error))
@@ -85,7 +80,7 @@ export default function SingleRoom(props: Readonly<RoomProps>) {
                     </StyledRoomLink>
 
                     <StyledButton onClick={deleteColorRoomSet}>
-                        <img alt={"trashIcon"} src={Trash} />
+                        <img alt={"trashIcon"} src={trash} />
                     </StyledButton>
 
                     <StyledButton onClick={handleEditClick}>
@@ -93,8 +88,7 @@ export default function SingleRoom(props: Readonly<RoomProps>) {
                     </StyledButton>
 
                 </>
-            )
-            }
+            )}
         </StyledRoomsContainer>
     )
 }
@@ -102,7 +96,6 @@ export default function SingleRoom(props: Readonly<RoomProps>) {
 export const StyledListItem = styled.li`
   list-style-type: none;
   left: 600px;
-
   border: 0.5px solid;
   border-radius: 10px;
   padding: 10px 20px;
