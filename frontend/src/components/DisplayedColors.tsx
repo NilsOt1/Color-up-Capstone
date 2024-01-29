@@ -22,7 +22,6 @@ export default function DisplayedColors() {
             [68, 19, 8]
         ];
     const [savedColors, setSavedColors] = useState<SingleColor[] | undefined>(initialData)
-
     const {colorRoomSetId} = useParams()
 
     useEffect(() => {
@@ -31,6 +30,10 @@ export default function DisplayedColors() {
 
     function handleSetLockedColor(updateColor: SingleColor[] | SingleColor | []) {
         setLockedColors(updateColor)
+    }
+
+    function handleSetSavedColors(color: SetStateAction<SingleColor[] | undefined>) {
+        setSavedColors(color)
     }
 
     function getColorRoomSetById() {
@@ -45,9 +48,7 @@ export default function DisplayedColors() {
             })
     }
 
-    function handleSetSavedColors(color: SetStateAction<SingleColor[] | undefined>) {
-        setSavedColors(color)
-    }
+
 
     function handleDivClick(index: number) {
         setActiveColorIndex(index === activeColorIndex ? -1 : index);
@@ -82,7 +83,7 @@ export default function DisplayedColors() {
                 </StyledDivContainer>
             ))}
             <StyledButtonContainer>
-                <GenerateColorsButton lockedColors={lockedColors} handleSetSavedColors={handleSetSavedColors}/>
+                <GenerateColorsButton lockedColors={lockedColors} handleSetSavedColors={handleSetSavedColors} savedColors={savedColors} initialData={initialData}/>
                 <SaveButton colorsToSave={savedColors}/>
             </StyledButtonContainer>
         </>
@@ -98,7 +99,7 @@ const StyledColorDiv = styled.div`
   width: 230px;
   margin-left: 20px;
   margin-right: 20px;
-  transition: background-color 1s ease-in;
+  transition: background-color 0.5s ease-in;
 `
 
 const StyledLockHexContainer = styled.span`
