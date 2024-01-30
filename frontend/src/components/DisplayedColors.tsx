@@ -48,8 +48,6 @@ export default function DisplayedColors() {
             })
     }
 
-
-
     function handleDivClick(index: number) {
         setActiveColorIndex(index === activeColorIndex ? -1 : index);
     }
@@ -95,7 +93,7 @@ const StyledDivContainer = styled.div`
 `
 
 const StyledColorDiv = styled.div`
-  height: 100px;
+  height: 95px;
   width: 230px;
   margin-left: 20px;
   margin-right: 20px;
@@ -111,7 +109,5 @@ const StyledLockHexContainer = styled.span`
 
 const StyledButtonContainer = styled.div`
   display: flex;
-  justify-content: space-around;
   margin-top: 5px;
 `
-
