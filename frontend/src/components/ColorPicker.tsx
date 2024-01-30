@@ -2,12 +2,12 @@ import {RgbStringColorPicker} from "react-colorful";
 import {SingleColor} from "../types/SingleColor.ts";
 import {SetStateAction} from "react";
 
-type colorProps = {
+type ColorPickerProps = {
     handleSetSavedColors: (color: SetStateAction<SingleColor[]>) => void
     color:SingleColor
     index:number
 }
-export default function ColorPicker(props:colorProps) {
+export default function ColorPicker(props:ColorPickerProps) {
 
 
     function handleColorChange(colorString: string, index: number) {

@@ -63,4 +63,4 @@ export const StyledInfoButton = styled.button`
   height: 30px;
   width: 30px;
   font-size: 1.5em;
-`;
+`

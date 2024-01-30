@@ -6,12 +6,12 @@ import axios from "axios";
 import trash from "../../../assets/trash.svg";
 import pen from "../../../assets/pen.svg";
 
-type RoomProps = {
+type SingleRoomProps = {
     colorRoomSet: ColorRoomSet
     children: ReactNode
     fetchAllColorRoomSets: () => void
 }
-export default function SingleRoom(props: Readonly<RoomProps>) {
+export default function SingleRoom(props: Readonly<SingleRoomProps>) {
 
     const [editMode, setEditMode] = useState<boolean>(false);
     const [newRoomName, setNewRoomName] = useState<string>(props.colorRoomSet.room.roomName)

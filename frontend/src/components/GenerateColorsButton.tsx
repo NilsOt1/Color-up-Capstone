@@ -5,13 +5,13 @@ import {SetStateAction, useState} from "react";
 import styled from "styled-components";
 
 
-type displayedColorsProps = {
+type GenerateColorsButtonProps = {
     lockedColors: SingleColor[]
     handleSetSavedColors: (color: SetStateAction<SingleColor[]>) => void
     savedColors: SingleColor[]
     initialData: SingleColor[]
 }
-export default function GenerateColorsButton(props: displayedColorsProps) {
+export default function GenerateColorsButton(props: GenerateColorsButtonProps) {
 
     const [showSpinner, setShowSpinner] = useState<boolean>(false)
 
@@ -93,4 +93,4 @@ const StyledGenerateButton = styled.button`
   width: 230px;
   font-size: 1.3em;
   background-color: #3b3b3b;
-`;
+`

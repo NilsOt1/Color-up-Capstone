@@ -20,7 +20,7 @@ body {
   color: #5b5b5b;
 }
 
-button, input, Link, a {
+button, input, Link, a, select {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   font-weight: 100;
   color: #BBBBBBFF;

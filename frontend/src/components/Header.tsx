@@ -2,7 +2,6 @@ import styled from "styled-components";
 import logo from "../assets/logo.png";
 import InfoButton from "./InfoButton.tsx";
 
-
 export default function Header() {
     return (
         <StyledContainer>
@@ -29,7 +28,7 @@ const StyledTitle = styled.p`
   display: flex;
   align-items: end;
   font-size: 1.3em;
-  margin: 8px 0px 0px 8px;
+  margin: 8px 0 0 8px;
 `
 
 const StyledLogo = styled.img`

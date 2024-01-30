@@ -5,12 +5,12 @@ import {ColorRoomSetDto} from "../../../types/ColorRoomSetDto.ts";
 import {ColorRoomSet} from "../../../types/ColorRoomSet.ts";
 import styled from "styled-components";
 
-type RoomProps = {
+type CreateNewRoomProps = {
     colorRoomSets: ColorRoomSet[]
     fetchAllColorRoomSets: () => void
 }
 
-export default function CreateNewRoom(props: Readonly<RoomProps>) {
+export default function CreateNewRoom(props: Readonly<CreateNewRoomProps>) {
 
     const [roomName, setRoomName] = useState<string>("")
     const [createMode, setCreateMode] = useState<boolean>(false);
@@ -70,6 +70,9 @@ export default function CreateNewRoom(props: Readonly<RoomProps>) {
                                              type={"text"}
                                              value={roomName}
                                              onChange={onInputName}
+                                             minLength={1}
+                                             maxLength={14}
+                                             required
                         />
                         <StyledFormButtonContainer>
                             <StyledFormButton type={"submit"}>Create</StyledFormButton>

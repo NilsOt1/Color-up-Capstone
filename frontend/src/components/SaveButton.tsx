@@ -3,11 +3,11 @@ import {useParams} from "react-router";
 import {SingleColor} from "../types/SingleColor.ts";
 import styled from "styled-components";
 
-type ColorsProps = {
+type SaveButtonProps = {
     colorsToSave: SingleColor[]
 }
 
-export default function SaveButton(props: ColorsProps) {
+export default function SaveButton(props: SaveButtonProps) {
 
     const {colorRoomSetId} = useParams<string>()
 
@@ -28,9 +28,9 @@ export default function SaveButton(props: ColorsProps) {
     }
 
     return (
-            <StyledSaveButton onClick={updateColorPalette}>Save</StyledSaveButton>
-    )
-}
+        <StyledSaveButton onClick={updateColorPalette}>Save</StyledSaveButton>
+    )}
+
 const StyledSaveButton = styled.button`
   font-weight: 100;
   display: flex;
