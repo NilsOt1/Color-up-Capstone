@@ -1,16 +1,16 @@
 import DisplayedColors from "../components/DisplayedColors.tsx";
-import InfoButton from "../components/InfoButton.tsx";
 import RoomDropDown from "../components/Rooms/roomManagement/RoomDropDown.tsx";
 import styled from "styled-components";
 import BackButton from "../components/BackButton.tsx";
+import Header from "../components/Header.tsx";
 
 export default function ColorSelection() {
     return (
         <>
+            <Header/>
             <StyledContainer>
                 <BackButton/>
                 <RoomDropDown/>
-                <InfoButton/>
             </StyledContainer>
             <DisplayedColors/>
         </>

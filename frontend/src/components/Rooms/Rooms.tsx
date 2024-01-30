@@ -44,9 +44,11 @@ export default function Rooms() {
 const StyledUl = styled.ul`
   display: flex;
   flex-direction: column;
+
 `;
 
 const StyledHeading = styled.h1`
+  color: #BBBBBBFF;
   text-align: center;
   font-size: 3.5em;
   font-weight: 100;

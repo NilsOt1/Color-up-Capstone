@@ -65,7 +65,7 @@ export default function SingleRoom(props: Readonly<RoomProps>) {
     }
 
     return (
-        <StyledRoomsContainer>
+        <>
             {editMode ? (
                 <>
                     <input type={"text"} value={newRoomName} onChange={handleInputChange}/>
@@ -73,25 +73,24 @@ export default function SingleRoom(props: Readonly<RoomProps>) {
                     <button onClick={handleCancelEdit}>Cancel</button>
                 </>
             ) : (
-                <>
+                <StyledRoomsContainer>
+                    <StyledDeleteButton onClick={deleteColorRoomSet}>
+                        <img alt={"trashIcon"} src={trash}/>
+                    </StyledDeleteButton>
+
+                    <StyledEditButton onClick={handleEditClick}>
+                        <img alt={"penIcon"} src={pen}/>
+                    </StyledEditButton>
                     <StyledRoomLink
                         to={`/color-selection/room/${props.colorRoomSet.colorRoomSetId}`}>
                         <StyledListItem>{props.children}</StyledListItem>
                     </StyledRoomLink>
 
-                    <StyledButton onClick={deleteColorRoomSet}>
-                        <img alt={"trashIcon"} src={trash} />
-                    </StyledButton>
-
-                    <StyledButton onClick={handleEditClick}>
-                        <img alt={"penIcon"} src={pen} />
-                    </StyledButton>
-
-                </>
+                </StyledRoomsContainer>
             )
             }
-        </StyledRoomsContainer>
-    )
+
+                </>)
 }
 
 export const StyledListItem = styled.li`
@@ -107,14 +106,20 @@ export const StyledListItem = styled.li`
 
 export const StyledRoomLink = styled(Link)`
   text-decoration: none;
-  border: none
+  border: none;
+  font-weight: 100;
 `;
 
 export const StyledRoomsContainer = styled.span`
   display: flex;
   align-items: center;
+  justify-content: start;
 `;
 
-const StyledButton = styled.button`
+const StyledDeleteButton = styled.button`
+  border: none;
+`
+
+const StyledEditButton = styled.button`
   border: none;
 `

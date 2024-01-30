@@ -43,36 +43,34 @@ export default function GenerateColorsButton(props: displayedColorsProps) {
             model: 'default'
         }
 
-        const allN = savedColorArray.every(color => color === "N");
+        const allN:boolean = savedColorArray.every(color => color === "N");
 
 
         if (!allN) {
             requestBody.input = savedColorArray;
         }
-        console.log("initial:", props.initialData)
-        console.log("savedColorArray: ", savedColorArray)
-        console.log("locked: ", props.lockedColors)
 
         axios.post("/api/colors", requestBody)
             .then(response => {
-                const newColors = [...props.lockedColors, ...response.data.result];
-                const updatedData = [...props.savedColors];
-
-                const unlockedColors = newColors.filter(color => !props.lockedColors.some(lockedColor => JSON.stringify(color) === JSON.stringify(lockedColor)));
-
-                updatedData.forEach((color, index) => {
+                const newColors = response.data.result.map((color, index) => {
                     if (isColorLocked(index)) {
-                        updatedData[index] = color;
+                        return props.lockedColors[index];
                     } else {
-                        updatedData[index] = unlockedColors.shift() || props.initialData[index];
+                        return color;
                     }
                 });
-                props.handleSetSavedColors(updatedData);
-                console.log("response: ", response.data.result)
-                console.log("requestBody: ", requestBody.input)
-                console.log("savedColors: ", props.savedColors)
-                console.log("updatedData: ", updatedData)
 
+                const updatedData = [...props.savedColors];
+
+                const unlockedColors = newColors.filter((color, index) => !isColorLocked(index));
+
+                updatedData.forEach((color, index) => {
+                    if (!isColorLocked(index)) {
+                        updatedData[index] = unlockedColors.shift();
+                    }
+                });
+
+                props.handleSetSavedColors(updatedData);
             })
             .catch(error => {
                 console.error('Error fetching', error);
@@ -80,7 +78,7 @@ export default function GenerateColorsButton(props: displayedColorsProps) {
 
         setTimeout(() => {
             setShowSpinner(false);
-        }, 1200);
+        }, 1000);
     }
 
     return (
@@ -94,8 +92,8 @@ const StyledGenerateButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 3px 20px;
   width: 230px;
-  border: 0.5px solid;
-  border-radius: 5px;
   font-size: 1.3em;
+  background-color: #3b3b3b;
 `;
