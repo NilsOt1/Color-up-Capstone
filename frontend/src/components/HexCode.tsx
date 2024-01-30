@@ -1,4 +1,5 @@
 import {SingleColor} from "../types/SingleColor.ts";
+import styled from "styled-components";
 
 type colorProps = {
     color:SingleColor
@@ -14,8 +15,12 @@ export default function HexCode(props:colorProps) {
     }
 
     return (
-        <div>
+        <StyledHex>
             {rgbToHex(props.color[0], props.color[1], props.color[2])}
-        </div>
+        </StyledHex>
     )
 }
+
+const StyledHex = styled.div`
+  color: #d5d5d5;
+`

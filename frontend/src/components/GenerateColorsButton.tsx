@@ -6,9 +6,9 @@ import styled from "styled-components";
 
 
 type displayedColorsProps = {
-    lockedColors: SingleColor[] | SingleColor | []
-    handleSetSavedColors: (color: SetStateAction<SingleColor[] | undefined>) => void
-    savedColors: SingleColor[] | undefined
+    lockedColors: SingleColor[]
+    handleSetSavedColors: (color: SetStateAction<SingleColor[]>) => void
+    savedColors: SingleColor[]
     initialData: SingleColor[]
 }
 export default function GenerateColorsButton(props: displayedColorsProps) {
@@ -21,15 +21,12 @@ export default function GenerateColorsButton(props: displayedColorsProps) {
 
     function generateMatchingColors(): void {
         setShowSpinner(true)
-        const savedColorArray: (SingleColor | string)[] = [];
+        const savedColorArray: SingleColor[] | string[] = [];
 
-        for (let i = 0; i < props.initialData.length; i++) {
-            // Überprüfen, ob die Farbe gelockt ist
+        for (let i:number = 0; i < props.initialData.length; i++) {
             if (isColorLocked(i)) {
-                // Wenn ja, füge die gelockte Farbe aus lockedColors an der aktuellen Position hinzu
                 savedColorArray.push(props.lockedColors.find(color => JSON.stringify(color) === JSON.stringify(props.savedColors[i])) || props.initialData[i]);
             } else {
-                // Wenn nicht, füge "N" an der entsprechenden Position hinzu
                 savedColorArray.push("N");
             }
         }
@@ -52,7 +49,7 @@ export default function GenerateColorsButton(props: displayedColorsProps) {
 
         axios.post("/api/colors", requestBody)
             .then(response => {
-                const newColors = response.data.result.map((color, index) => {
+                const newColors = response.data.result.map((color: SingleColor, index:number) => {
                     if (isColorLocked(index)) {
                         return props.lockedColors[index];
                     } else {
@@ -60,11 +57,11 @@ export default function GenerateColorsButton(props: displayedColorsProps) {
                     }
                 });
 
-                const updatedData = [...props.savedColors];
+                const updatedData:SingleColor[] = [...props.savedColors];
 
-                const unlockedColors = newColors.filter((color, index) => !isColorLocked(index));
+                const unlockedColors = newColors.filter((_color: SingleColor, index: number) => !isColorLocked(index));
 
-                updatedData.forEach((color, index) => {
+                updatedData.forEach((_color:SingleColor, index) => {
                     if (!isColorLocked(index)) {
                         updatedData[index] = unlockedColors.shift();
                     }
