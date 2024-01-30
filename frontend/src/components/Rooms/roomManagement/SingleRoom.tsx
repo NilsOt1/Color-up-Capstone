@@ -73,7 +73,6 @@ export default function SingleRoom(props: Readonly<RoomProps>) {
                     <button onClick={handleCancelEdit}>Cancel</button>
                 </>
             ) : (
-                <>
                 <StyledRoomsContainer>
                     <StyledDeleteButton onClick={deleteColorRoomSet}>
                         <img alt={"trashIcon"} src={trash}/>
@@ -88,7 +87,6 @@ export default function SingleRoom(props: Readonly<RoomProps>) {
                     </StyledRoomLink>
 
                 </StyledRoomsContainer>
-                </>
             )
             }
 
