@@ -2,7 +2,6 @@ import styled from "styled-components";
 import logo from "../assets/logo.png";
 import InfoButton from "./InfoButton.tsx";
 
-
 export default function Header() {
     return (
         <StyledContainer>
