@@ -70,6 +70,9 @@ export default function CreateNewRoom(props: Readonly<CreateNewRoomProps>) {
                                              type={"text"}
                                              value={roomName}
                                              onChange={onInputName}
+                                             minLength={1}
+                                             maxLength={14}
+                                             required
                         />
                         <StyledFormButtonContainer>
                             <StyledFormButton type={"submit"}>Create</StyledFormButton>
