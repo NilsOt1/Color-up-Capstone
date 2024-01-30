@@ -1,10 +1,11 @@
 import {SingleColor} from "../types/SingleColor.ts";
 import {SetStateAction} from "react";
 import arrowUp from "../assets/arrowUp.svg"
+import styled from "styled-components";
 
 type ColorPositionUpProps = {
-    savedColors: SingleColor[] | undefined
-    handleSetSavedColors: (color: SetStateAction<SingleColor[] | undefined>) => void
+    savedColors: SingleColor[]
+    handleSetSavedColors: (color: SetStateAction<SingleColor[]>) => void
     index: number
 }
 
@@ -18,5 +19,15 @@ export default function ColorPositionUp(props: ColorPositionUpProps) {
         props.handleSetSavedColors(newSavedColors);
     }
 
-    return <button onClick={() => moveColorUp(props.index)}><img alt={"arrow up icon"} src={arrowUp}/></button>
+    if (props.index === 0) {
+        return null
+    } else {
+        return <StyledPositionButton onClick={() => moveColorUp(props.index)}><img alt={"arrow up icon"} src={arrowUp}/></StyledPositionButton>
+    }
 }
+
+const StyledPositionButton = styled.button`
+  border: none;
+  box-shadow: none;
+  margin-right: 5px;
+`
