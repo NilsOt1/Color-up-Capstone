@@ -46,8 +46,6 @@ export default function CreateNewRoom(props: Readonly<RoomProps>) {
             .catch(error => {
                 console.error("Error", error)
             })
-        console.log(data)
-
     }
 
     function handleSubmit(event: FormEvent<HTMLFormElement>) {

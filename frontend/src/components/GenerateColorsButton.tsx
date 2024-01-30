@@ -49,36 +49,27 @@ export default function GenerateColorsButton(props: displayedColorsProps) {
         if (!allN) {
             requestBody.input = savedColorArray;
         }
-        console.log("savedColorArray: ", savedColorArray)
-        console.log("locked: ", props.lockedColors)
 
         axios.post("/api/colors", requestBody)
             .then(response => {
                 const newColors = response.data.result.map((color, index) => {
                     if (isColorLocked(index)) {
-                        return props.lockedColors[index]; // Gelockte Farbe an der entsprechenden Position
+                        return props.lockedColors[index];
                     } else {
-                        return color; // Farbe aus der API-Antwort ansonsten beibehalten
+                        return color;
                     }
                 });
 
-                // Aktualisierte Daten vorbereiten
                 const updatedData = [...props.savedColors];
 
-                // Entsperrte Farben auswählen
                 const unlockedColors = newColors.filter((color, index) => !isColorLocked(index));
 
-                // Iteration über die gespeicherten Farben
                 updatedData.forEach((color, index) => {
                     if (!isColorLocked(index)) {
-                        // Wenn die Farbe nicht gelockt ist, ersetze sie durch die nächste entsperrte Farbe
                         updatedData[index] = unlockedColors.shift();
                     }
                 });
-                console.log("response: ", response.data.result)
-                console.log("updatedData: ", updatedData)
 
-                // Gespeicherte Farben aktualisieren
                 props.handleSetSavedColors(updatedData);
             })
             .catch(error => {
@@ -106,4 +97,3 @@ const StyledGenerateButton = styled.button`
   font-size: 1.3em;
   background-color: #3b3b3b;
 `;
-
