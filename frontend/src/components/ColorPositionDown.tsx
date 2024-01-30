@@ -9,7 +9,7 @@ type ColorPositionDownProps = {
     index: number
 }
 
-export default function ColorPositionDown(props: ColorPositionDownProps) {
+export default function ColorPositionDown(props: Readonly<ColorPositionDownProps>) {
     function moveColorDown(index: number) {
         if (index === 4) return;
         const newSavedColors = [...props.savedColors];

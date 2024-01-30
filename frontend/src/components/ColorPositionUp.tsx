@@ -9,7 +9,7 @@ type ColorPositionUpProps = {
     index: number
 }
 
-export default function ColorPositionUp(props: ColorPositionUpProps) {
+export default function ColorPositionUp(props: Readonly<ColorPositionUpProps>) {
     function moveColorUp(index: number) {
         if (index === 0) return;
         const newSavedColors = [...props.savedColors];
@@ -22,7 +22,12 @@ export default function ColorPositionUp(props: ColorPositionUpProps) {
     if (props.index === 0) {
         return null
     } else {
-        return <StyledPositionButton onClick={() => moveColorUp(props.index)}><img alt={"arrow up icon"} src={arrowUp}/></StyledPositionButton>
+        return (
+            <StyledPositionButton
+                onClick={() => moveColorUp(props.index)}>
+                <img alt={"arrow up icon"} src={arrowUp}/>
+            </StyledPositionButton>
+        )
     }
 }
 
