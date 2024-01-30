@@ -1,1 +1,1 @@
-export type SingleColor = [number, number, number];
+export type SingleColor = [number, number, number] | number[];

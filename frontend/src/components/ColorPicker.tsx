@@ -3,7 +3,7 @@ import {SingleColor} from "../types/SingleColor.ts";
 import {SetStateAction} from "react";
 
 type colorProps = {
-    handleSetSavedColors: (color: SetStateAction<SingleColor[] | undefined>) => void
+    handleSetSavedColors: (color: SetStateAction<SingleColor[]>) => void
     color:SingleColor
     index:number
 }
@@ -17,7 +17,7 @@ export default function ColorPicker(props:colorProps) {
             .map(singleString => parseInt(singleString.trim(), 10));
 
         props.handleSetSavedColors(prevData => {
-            const updatedSavedColors:SingleColor[] = [...prevData];
+            const updatedSavedColors:SingleColor[] | SingleColor = [...prevData];
             updatedSavedColors[index] = colorArray;
             return updatedSavedColors;
         });
