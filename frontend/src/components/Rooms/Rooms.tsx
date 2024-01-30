@@ -15,16 +15,15 @@ export default function Rooms() {
 
 
     function fetchAllColorRoomSets(): void {
-        axios.get("api/user/cf0ff01b-8d19-4211-9a0b-6eb0aeec165e/color-room-sets")
+        axios.get("/api/user/cf0ff01b-8d19-4211-9a0b-6eb0aeec165e/color-room-sets")
             .then(response => setColorRoomSets(response.data))
             .catch(error => {
                 console.error("error information: ", error)
             })
     }
-
     return (
         <>
-            <h1>Rooms</h1>
+            <StyledHeading>Rooms</StyledHeading>
             <StyledUl>
                 {colorRoomSets.map(set => (
                         <SingleRoom
@@ -46,3 +45,12 @@ const StyledUl = styled.ul`
   display: flex;
   flex-direction: column;
 `;
+
+const StyledHeading = styled.h1`
+  text-align: center;
+  font-size: 3.5em;
+  font-weight: 100;
+  margin: 50px 0px 20px 0px;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+`
