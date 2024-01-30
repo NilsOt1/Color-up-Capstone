@@ -60,7 +60,7 @@ const StyledHeading = styled.h1`
   font-size: 2.5em;
   font-weight: 100;
   color: #BBBBBBFF;
-  margin: 10px 70px 0px 0px;
+  margin: 10px 70px 0 0;
   text-decoration: underline;
   text-decoration-thickness: 1px;
 `
@@ -68,11 +68,6 @@ const StyledHeading = styled.h1`
 const StyledDropDown = styled.select`
   text-align: center;
   font-size: 1.5em;
-  font-weight: 100;
-  margin: 10px 30px 20px 50px;
-  color: #5B5B5BFF;
-  text-decoration: underline;
-  text-decoration-thickness: 0.5px;
-  background-color: #BBBBBBFF;
-  border-radius: 10px;
+  margin: 10px 70px 0 0;
+  color: #969696;
 `
