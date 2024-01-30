@@ -2,7 +2,6 @@ import {ChangeEvent, FormEvent, useState} from "react";
 import axios from "axios";
 import {Room} from "../../../types/Room.ts";
 import {ColorRoomSetDto} from "../../../types/ColorRoomSetDto.ts";
-import {User} from "../../../types/User.ts";
 import {ColorRoomSet} from "../../../types/ColorRoomSet.ts";
 import styled from "styled-components";
 
@@ -13,7 +12,6 @@ type RoomProps = {
 
 export default function CreateNewRoom(props: Readonly<RoomProps>) {
 
-    const [data, setData] = useState<User>()
     const [roomName, setRoomName] = useState<string>("")
     const [createMode, setCreateMode] = useState<boolean>(false);
 
@@ -39,10 +37,10 @@ export default function CreateNewRoom(props: Readonly<RoomProps>) {
 
         axios
             .put("/api/user/cf0ff01b-8d19-4211-9a0b-6eb0aeec165e", createdColorRoomSetDto)
-            .then(response => {
-                setData(response.data)
-                props.fetchAllColorRoomSets()
-            })
+            .then(() => {
+                    props.fetchAllColorRoomSets()
+                }
+            )
             .catch(error => {
                 console.error("Error", error)
             })
@@ -69,13 +67,13 @@ export default function CreateNewRoom(props: Readonly<RoomProps>) {
                     <StyledForm onSubmit={handleSubmit}>
                         <StyledFormLabel htmlFor={"roomName"}>New Room</StyledFormLabel>
                         <StyledRoomNameInput id={"roomName"}
-                               type={"text"}
-                               value={roomName}
-                               onChange={onInputName}
+                                             type={"text"}
+                                             value={roomName}
+                                             onChange={onInputName}
                         />
                         <StyledFormButtonContainer>
-                        <StyledFormButton type={"submit"}>Create</StyledFormButton>
-                        <StyledFormButton onClick={handleCancelClick}>Cancel</StyledFormButton>
+                            <StyledFormButton type={"submit"}>Create</StyledFormButton>
+                            <StyledFormButton onClick={handleCancelClick}>Cancel</StyledFormButton>
                         </StyledFormButtonContainer>
                     </StyledForm>
                 ) : (
@@ -87,7 +85,7 @@ export default function CreateNewRoom(props: Readonly<RoomProps>) {
 }
 
 const StyledNewRoomButton = styled.button`
-  
+
   display: flex;
   justify-content: center;
   align-items: center;
