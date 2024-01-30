@@ -1,10 +1,11 @@
 import {SingleColor} from "../types/SingleColor.ts";
 import {SetStateAction} from "react";
 import arrowDown from "../assets/arrowDown.svg"
+import styled from "styled-components";
 
 type ColorPositionDownProps = {
-    savedColors: SingleColor[] | undefined
-    handleSetSavedColors: (color: SetStateAction<SingleColor[] | undefined>) => void
+    savedColors: SingleColor[]
+    handleSetSavedColors: (color: SetStateAction<SingleColor[]>) => void
     index: number
 }
 
@@ -18,6 +19,21 @@ export default function ColorPositionDown(props: ColorPositionDownProps) {
         props.handleSetSavedColors(newSavedColors);
     }
 
-    return <button onClick={() => moveColorDown(props.index)}><img alt={"arrow down icon"} src={arrowDown}/></button>
-
+    if (props.index === 4) {
+        return null
+    } else {
+        return (
+            <StyledPositionButton
+                onClick={() => moveColorDown(props.index)}>
+                <img alt={"arrow down icon"}
+                     src={arrowDown}/>
+            </StyledPositionButton>
+        )
+    }
 }
+
+const StyledPositionButton = styled.button`
+  border: none;
+  box-shadow: none;
+  margin-right: 5px;
+`
