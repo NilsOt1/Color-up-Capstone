@@ -24,11 +24,9 @@ export default function ColorPicker(props:colorProps) {
     }
 
     return (
-        <>
             <RgbStringColorPicker
                 color={`rgb(${props.color[0]}, ${props.color[1]}, ${props.color[2]})`}
                 onChange={(newColor) => handleColorChange(newColor, props.index)}
             />
-        </>
     )
 }

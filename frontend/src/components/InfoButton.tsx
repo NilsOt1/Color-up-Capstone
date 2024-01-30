@@ -56,7 +56,10 @@ export const StyledInfoText = styled.div`
 `
 
 export const StyledInfoButton = styled.button`
+  color: #7c7b7b;
   border-radius: 30px;
+  margin-top: 9px;
+  margin-right: 10px;
   height: 30px;
   width: 30px;
   font-size: 1.5em;

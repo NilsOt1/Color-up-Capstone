@@ -9,8 +9,7 @@ type DisplayedColorProps = {
     handleSetLockedColor: (updateColor: SingleColor[] | SingleColor | []) => void;
     lockedColors: SingleColor[] | SingleColor | []
 }
-export default function LockColor(props:DisplayedColorProps) {
-
+export default function LockColor(props: DisplayedColorProps) {
 
     function toggleLockColor(color: SingleColor | string) {
         if (props.lockedColors?.includes(color)) {
@@ -23,17 +22,22 @@ export default function LockColor(props:DisplayedColorProps) {
             props.handleSetLockedColor([...props.lockedColors, color]);
         }
     }
+
     return (
-        <>
-            <StyledLockButton
-                onClick={() => toggleLockColor(props.color)}>{props.lockedColors?.includes(props.color) ? <img alt={"lockCloseIcon"} src={lockClose}/> : <img alt={"lockOpenIcon"} src={lockOpen}/>}</StyledLockButton>
-        </>
+        <StyledLockButton
+            onClick={() => toggleLockColor(props.color)}>
+            {props.lockedColors?.includes(props.color) ?
+                <img alt={"lock close Icon"} src={lockClose}/>
+                :
+                <img alt={"lockOpenIcon"} src={lockOpen}/>}
+        </StyledLockButton>
     )
 }
 
 const StyledLockButton = styled.button`
-    border: none;
+  border: none;
   height: 40px;
   width: 70px;
-    
+  box-shadow: none;
+
 `
