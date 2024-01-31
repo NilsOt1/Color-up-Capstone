@@ -60,7 +60,7 @@ jobs:
 
       - uses: actions/download-artifact@v3
         with:
-          name: app.jar
+          name: color-up-2.jar
           path: backend/target
 
       - name: Login to DockerHub
