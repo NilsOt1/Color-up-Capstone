@@ -59,7 +59,7 @@ export const StyledListItem = styled.li`
   border: 0.5px solid;
   border-radius: 10px;
   padding: 10px 20px;
-  margin: 0px;
+  margin: 0;
   font-size: 1.3em;
 `;
 
