@@ -10,7 +10,7 @@ function App() {
 
             <Routes>
                 <Route path={"/color-selection/room/:colorRoomSetId"} element={<ColorSelection/>}/>
-                <Route path={"/room-selection"} element={<RoomSelection/>}/>
+                <Route path={"/"} element={<RoomSelection/>}/>
             </Routes>
 
         </>
