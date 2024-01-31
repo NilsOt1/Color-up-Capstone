@@ -46,7 +46,8 @@ export default function RoomDropDown() {
                     <StyledDropDown onChange={handleSelectChange} value={currentRoom?.colorRoomSetId}>
                         {colorRoomSets.map((room: ColorRoomSet) => (
                             <option key={room.colorRoomSetId} value={room.colorRoomSetId}
-                                    onClick={() => setShowRoom(false)}>{room.room.roomName}
+                                    onClick={() => setShowRoom(false)}>
+                                {room.room.roomName}
                             </option>
                         ))}
                     </StyledDropDown>)

@@ -14,7 +14,7 @@ const StyledBackLink = styled(Link)`
   display: flex;
   justify-content: center;
   align-items: center;
-margin-top: 10px;
+  margin-top: 10px;
   border: none;
   box-shadow: none;
   height: 60px;

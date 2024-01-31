@@ -88,16 +88,16 @@ export default function CreateNewRoom(props: Readonly<CreateNewRoomProps>) {
 }
 
 const StyledNewRoomButton = styled.button`
-
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 30px auto;
+  padding-bottom: 6px;
   height: 50px;
   width: 50px;
   box-shadow: 12px 12px 12px rgba(0, 0, 0, 0.5);
   font-size: 2.5em;
-  font-weight: 200;
+  font-weight: 100;
   border: solid 1px;
   border-radius: 30px;
 `;
@@ -115,7 +115,6 @@ const StyledFormButtonContainer = styled.span`
 `
 
 const StyledFormButton = styled.button`
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -124,7 +123,6 @@ const StyledFormButton = styled.button`
   height: 30px;
   width: 90px;
   font-size: 1.3em;
-  font-weight: 100;
 `
 
 export const StyledFormLabel = styled.label`

@@ -6,15 +6,15 @@ import styled from "styled-components";
 
 type LockColorProps = {
     color: SingleColor
-    handleSetLockedColor: (updateColor: SingleColor[] | SingleColor | []) => void;
-    lockedColors: SingleColor[] | SingleColor | []
+    handleSetLockedColor: (updateColor: SingleColor[]) => void;
+    lockedColors: SingleColor[]
 }
 export default function LockColor(props: LockColorProps) {
 
-    function toggleLockColor(color: SingleColor | string) {
+    function toggleLockColor(color: SingleColor) {
         if (props.lockedColors?.includes(color)) {
 
-            const updatedColors: SingleColor[] | SingleColor | [] = props.lockedColors?.filter(savedColor =>
+            const updatedColors: SingleColor[] = props.lockedColors?.filter(savedColor =>
                 JSON.stringify(savedColor) !== JSON.stringify(color)
             );
             props.handleSetLockedColor(updatedColors);
