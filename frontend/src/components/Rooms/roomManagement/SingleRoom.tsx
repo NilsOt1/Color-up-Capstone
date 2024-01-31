@@ -1,10 +1,9 @@
 import {Link} from "react-router-dom";
 import {ColorRoomSet} from "../../../types/ColorRoomSet.ts";
-import {ChangeEvent, ReactNode, useState} from "react";
+import {ReactNode, useState} from "react";
 import styled from "styled-components";
-import axios from "axios";
-import trash from "../../../assets/trash.svg";
-import pen from "../../../assets/pen.svg";
+import DeleteRoomButton from "./DeleteRoomButton.tsx";
+import EditRoomNameButton from "./EditRoomNameButton.tsx";
 
 type SingleRoomProps = {
     colorRoomSet: ColorRoomSet
@@ -16,81 +15,41 @@ export default function SingleRoom(props: Readonly<SingleRoomProps>) {
     const [editMode, setEditMode] = useState<boolean>(false);
     const [newRoomName, setNewRoomName] = useState<string>(props.colorRoomSet.room.roomName)
 
-    function deleteColorRoomSet(): void {
-
-        const shouldDelete = window.confirm("Are you sure you want to delete this room?");
-        if (shouldDelete) {
-            axios
-                .put("/api/user/cf0ff01b-8d19-4211-9a0b-6eb0aeec165e/delete-set/" + props.colorRoomSet.colorRoomSetId)
-                .then(response => {
-                    console.log("DELETE room successfully", response.data);
-                    props.fetchAllColorRoomSets();
-                })
-                .catch(error => {
-                    console.error("DELETE did not work:", error)
-                })
-        }
+    function handleSetEditMode(boolean: boolean) {
+        setEditMode(boolean)
     }
 
-    function handleEditClick(): void {
-        setEditMode(true)
-    }
-
-    function handleSaveEdit(): void {
-        changeRoomName();
-        setEditMode(false)
-    }
-
-    function handleCancelEdit(): void {
-        setEditMode(false);
-        setNewRoomName(props.colorRoomSet.room.roomName)
-    }
-
-    function handleInputChange(event: ChangeEvent<HTMLInputElement>): void {
-        setNewRoomName(event.target.value)
-    }
-
-    function changeRoomName() {
-        axios
-            .put("/api/user/cf0ff01b-8d19-4211-9a0b-6eb0aeec165e/update-name/" + props.colorRoomSet.colorRoomSetId, newRoomName, {
-                headers: {
-                    'Content-Type': 'text/plain'
-                }
-            })
-            .then(() => {
-                props.fetchAllColorRoomSets();
-            })
-
-            .catch(error => console.log("Error", error))
+    function handleSetNewRoomName(newName: string) {
+        setNewRoomName(newName)
     }
 
     return (
         <>
             {editMode ? (
-                <>
-                    <input type={"text"} value={newRoomName} onChange={handleInputChange}/>
-                    <button onClick={handleSaveEdit}>Save</button>
-                    <button onClick={handleCancelEdit}>Cancel</button>
-                </>
+
+                    <EditRoomNameButton newRoomName={newRoomName} colorRoomSet={props.colorRoomSet}
+                                        fetchAllColorRoomSets={props.fetchAllColorRoomSets}
+                                        editMode={editMode}
+                                        handleSetEditMode={handleSetEditMode}
+                                        handleSetNewRoomName={handleSetNewRoomName}/>
             ) : (
                 <StyledRoomsContainer>
-                    <StyledDeleteButton onClick={deleteColorRoomSet}>
-                        <img alt={"trashIcon"} src={trash}/>
-                    </StyledDeleteButton>
-
-                    <StyledEditButton onClick={handleEditClick}>
-                        <img alt={"penIcon"} src={pen}/>
-                    </StyledEditButton>
+                    <DeleteRoomButton colorRoomSet={props.colorRoomSet}
+                                      fetchAllColorRoomSets={props.fetchAllColorRoomSets}/>
+                    <EditRoomNameButton newRoomName={newRoomName} colorRoomSet={props.colorRoomSet}
+                                        fetchAllColorRoomSets={props.fetchAllColorRoomSets}
+                                        editMode={editMode}
+                                        handleSetEditMode={handleSetEditMode}
+                                        handleSetNewRoomName={handleSetNewRoomName}/>
                     <StyledRoomLink
                         to={`/color-selection/room/${props.colorRoomSet.colorRoomSetId}`}>
                         <StyledListItem>{props.children}</StyledListItem>
                     </StyledRoomLink>
-
                 </StyledRoomsContainer>
             )
             }
-
-                </>)
+        </>
+    )
 }
 
 export const StyledListItem = styled.li`
@@ -116,10 +75,3 @@ export const StyledRoomsContainer = styled.span`
   justify-content: start;
 `;
 
-const StyledDeleteButton = styled.button`
-  border: none;
-`
-
-const StyledEditButton = styled.button`
-  border: none;
-`
