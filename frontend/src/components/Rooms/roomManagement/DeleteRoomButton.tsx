@@ -7,7 +7,7 @@ type DeleteRoomButtonProps = {
     colorRoomSet: ColorRoomSet
     fetchAllColorRoomSets: () => void
 }
-export default function DeleteRoomButton(props: DeleteRoomButtonProps) {
+export default function DeleteRoomButton(props: Readonly<DeleteRoomButtonProps>) {
     function deleteColorRoomSet(): void {
 
         const shouldDelete = window.confirm("Are you sure you want to delete this room?");

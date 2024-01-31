@@ -4,7 +4,7 @@ import pen from "../../../assets/pen.svg";
 import {ChangeEvent} from "react";
 import styled from "styled-components";
 
-type EditRoomNameButton = {
+type EditRoomNameButtonProps = {
     colorRoomSet: ColorRoomSet
     editMode: boolean
     fetchAllColorRoomSets: () => void
@@ -13,7 +13,7 @@ type EditRoomNameButton = {
     newRoomName: string
 }
 
-export default function EditRoomNameButton(props: EditRoomNameButton) {
+export default function EditRoomNameButton(props: Readonly<EditRoomNameButtonProps>) {
 
     function handleEditClick(): void {
         props.handleSetEditMode(true)

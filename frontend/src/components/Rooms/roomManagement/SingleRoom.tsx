@@ -26,13 +26,12 @@ export default function SingleRoom(props: Readonly<SingleRoomProps>) {
     return (
         <>
             {editMode ? (
-                <>
+
                     <EditRoomNameButton newRoomName={newRoomName} colorRoomSet={props.colorRoomSet}
                                         fetchAllColorRoomSets={props.fetchAllColorRoomSets}
                                         editMode={editMode}
                                         handleSetEditMode={handleSetEditMode}
                                         handleSetNewRoomName={handleSetNewRoomName}/>
-                </>
             ) : (
                 <StyledRoomsContainer>
                     <DeleteRoomButton colorRoomSet={props.colorRoomSet}
