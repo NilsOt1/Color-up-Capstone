@@ -51,6 +51,7 @@ export default function CreateNewRoom(props: Readonly<CreateNewRoomProps>) {
             event.preventDefault()
             saveNewColorRoomSet()
             setRoomName("")
+            setCreateMode(false)
         } else {
             alert("Sorry, the max number of rooms is 5")
         }
