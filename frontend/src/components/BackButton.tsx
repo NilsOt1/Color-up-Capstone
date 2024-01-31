@@ -4,7 +4,7 @@ import backArrow from "../assets/backArrow.svg";
 
 export default function BackButton() {
     return (
-            <StyledBackLink to={"/room-selection"}>
+            <StyledBackLink to={"/"}>
                 <img alt={"Back arrow"} src={backArrow}/>
             </StyledBackLink>
     )

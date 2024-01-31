@@ -7,12 +7,10 @@ function App() {
 
     return (
         <>
-
             <Routes>
                 <Route path={"/color-selection/room/:colorRoomSetId"} element={<ColorSelection/>}/>
                 <Route path={"/"} element={<RoomSelection/>}/>
             </Routes>
-
         </>
     )
 }
