@@ -21,11 +21,11 @@ export default function GenerateColorsButton(props: GenerateColorsButtonProps) {
 
     function generateMatchingColors(): void {
         setShowSpinner(true)
-        const savedColorArray: SingleColor[] | string[] = [];
+        const savedColorArray: (SingleColor | string)[] = [];
 
         for (let i:number = 0; i < props.initialData.length; i++) {
             if (isColorLocked(i)) {
-                savedColorArray.push(props.lockedColors.find(color => JSON.stringify(color) === JSON.stringify(props.savedColors[i])) || props.initialData[i]);
+                savedColorArray.push((props.lockedColors.find((color: SingleColor) => JSON.stringify(color) === JSON.stringify(props.savedColors[i])) || props.initialData[i]))
             } else {
                 savedColorArray.push("N");
             }

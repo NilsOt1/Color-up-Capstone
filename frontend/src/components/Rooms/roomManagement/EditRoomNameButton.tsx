@@ -77,7 +77,7 @@ const StyledNewNameContainer = styled.span`
   border-bottom: solid 0.5px #1a1a1a;
   border-top: solid 0.5px #afafaf;
   margin: 5px 40px 5px 0;
-  padding: 10px 0px;
+  padding: 10px 0;
   border-radius: 20px;
 `
 

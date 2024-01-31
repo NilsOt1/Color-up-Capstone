@@ -60,7 +60,7 @@ export default function DisplayedColors() {
 
     return (
         <>
-            {savedColors.map((color: SingleColor, index: number) => (
+            {savedColors?.map((color: SingleColor, index: number) => (
                 <StyledDivContainer
                     key={index}>
                     <StyledColorDiv
@@ -111,8 +111,7 @@ const StyledColorDiv = styled.div`
   margin-left: 20px;
   margin-right: 8px;
   transition: background-color 0.5s ease-in;
-  box-shadow: 20px 0 20px rgba(0, 0, 0, 0.3);
-
+  box-shadow: 20px 0 30px rgba(0, 0, 0, 0.5);
 `
 
 const StyledLockHexContainer = styled.span`
