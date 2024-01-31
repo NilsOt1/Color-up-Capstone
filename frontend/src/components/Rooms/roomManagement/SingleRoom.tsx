@@ -59,7 +59,7 @@ export const StyledListItem = styled.li`
   border: 0.5px solid;
   border-radius: 10px;
   padding: 10px 20px;
-  margin: 5px;
+  margin: 0px;
   font-size: 1.3em;
 `;
 
@@ -67,11 +67,12 @@ export const StyledRoomLink = styled(Link)`
   text-decoration: none;
   border: none;
   font-weight: 100;
+  
 `;
 
 export const StyledRoomsContainer = styled.span`
   display: flex;
   align-items: center;
   justify-content: start;
+  gap: 5px;
 `;
-

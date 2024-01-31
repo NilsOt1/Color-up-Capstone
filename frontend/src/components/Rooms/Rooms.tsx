@@ -44,7 +44,7 @@ export default function Rooms() {
 const StyledUl = styled.ul`
   display: flex;
   flex-direction: column;
-
+  gap: 10px;
 `;
 
 const StyledHeading = styled.h1`
