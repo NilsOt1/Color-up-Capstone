@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import {Link} from "react-router-dom";
-import backArrow from "../assets/BackArrow.svg";
+import backArrow from "../assets/backArrow.svg";
 
 export default function BackButton() {
     return (
