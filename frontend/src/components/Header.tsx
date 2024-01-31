@@ -34,6 +34,7 @@ const StyledTitle = styled.p`
 const StyledLogo = styled.img`
 margin-bottom: 2px;
   margin-top: 2px;
+  height: 45px;
 `
 
 const StyledLogoTitleContainer = styled.div`
