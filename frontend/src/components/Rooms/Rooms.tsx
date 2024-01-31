@@ -52,7 +52,7 @@ const StyledHeading = styled.h1`
   text-align: center;
   font-size: 3.5em;
   font-weight: 100;
-  margin: 50px 0px 20px 0px;
+  margin: 50px 0 20px 0;
   text-decoration: underline;
   text-decoration-thickness: 1px;
 `
