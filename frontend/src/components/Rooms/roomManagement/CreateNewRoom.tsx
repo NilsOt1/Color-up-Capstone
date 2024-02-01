@@ -74,6 +74,7 @@ export default function CreateNewRoom(props: Readonly<CreateNewRoomProps>) {
                                              minLength={1}
                                              maxLength={14}
                                              required
+                                             autoComplete={"off"}
                         />
                         <StyledFormButtonContainer>
                             <StyledFormButton type={"submit"}>Create</StyledFormButton>

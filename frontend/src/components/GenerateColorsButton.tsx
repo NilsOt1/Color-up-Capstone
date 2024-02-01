@@ -90,7 +90,7 @@ const StyledGenerateButton = styled.button`
   justify-content: center;
   align-items: center;
   margin: 3px 20px;
-  width: 230px;
+  width: 29vh;
   font-size: 1.3em;
   background-color: #3b3b3b;
 `

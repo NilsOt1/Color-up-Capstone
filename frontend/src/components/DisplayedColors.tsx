@@ -106,8 +106,8 @@ const StyledDivContainer = styled.div`
 `
 
 const StyledColorDiv = styled.div`
-  height: 95px;
-  width: 230px;
+  height: 14vh;
+  width: 29vh;
   margin-left: 20px;
   margin-right: 8px;
   transition: background-color 0.5s ease-in;
@@ -124,6 +124,7 @@ const StyledLockHexContainer = styled.span`
 const StyledButtonContainer = styled.div`
   display: flex;
   margin-top: 5px;
+  width: 50vh;
 `
 
 const StyledArrowContainer = styled.span`
