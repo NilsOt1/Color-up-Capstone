@@ -1,6 +1,6 @@
-# ColorUp
+# Color-Up
 
-![App screens](./public/images/updated-screens.png)
+![App screens](./frontend/src/assets/img-for-readme.png)
 
 ## Capstone Project of the Java Fullstack bootcamp at neuefische
 
@@ -14,6 +14,7 @@ Watch as Color-Up provides a stunning, harmonious color palette just for you, co
 Save your favorite palettes, tag them to specific rooms, and share them with your friends and family. So why settle for bland when you can dazzle with Color-Up? <br>
 Say goodbye to guesswork and hello to endless creativity. <br>
 Color-Up, one hell of an App<br>
+🎨✨
 
 ### Deployment
 
