@@ -49,6 +49,7 @@ const StyledSaveColorButton = styled.button`
   display: flex;
   border: 0.5px solid;
   font-size: 1.3em;
+  margin-left: 20px;
   padding: 5px 10px;
   background-color: #3B3B3BFF;
 `
