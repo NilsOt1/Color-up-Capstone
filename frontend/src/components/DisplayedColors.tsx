@@ -106,7 +106,7 @@ const StyledDivContainer = styled.div`
 `
 
 const StyledColorDiv = styled.div`
-  height: 14vh;
+  height: calc(100vh / 5 - 40px);
   width: 29vh;
   margin-left: 20px;
   margin-right: 8px;
