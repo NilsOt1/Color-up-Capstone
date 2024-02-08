@@ -1,11 +1,10 @@
-import {SingleColor} from "../types/SingleColor.ts";
+import {SingleColor} from "../../types/SingleColor.ts";
 import styled from "styled-components";
 
 type HexCodeProps = {
     color:SingleColor
 }
 export default function HexCode(props:HexCodeProps) {
-
     function rgbToHex(r: number, g: number, b: number):(string) {
         function toHex(c: number) {
             const hex:string = c.toString(16);

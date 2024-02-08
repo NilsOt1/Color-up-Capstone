@@ -1,6 +1,6 @@
-import {SingleColor} from "../types/SingleColor.ts";
+import {SingleColor} from "../../types/SingleColor.ts";
 import axios from "axios";
-import loading from "../assets/loading.svg";
+import loading from "../../assets/loading.svg";
 import {SetStateAction, useState} from "react";
 import styled from "styled-components";
 
@@ -31,7 +31,6 @@ export default function GenerateColorsButton(props: GenerateColorsButtonProps) {
             }
         }
 
-
         const requestBody: {
             input?: SingleColor | string[] | (SingleColor | string)[],
             model: string
@@ -41,7 +40,6 @@ export default function GenerateColorsButton(props: GenerateColorsButtonProps) {
         }
 
         const allN:boolean = savedColorArray.every(color => color === "N");
-
 
         if (!allN) {
             requestBody.input = savedColorArray;
@@ -89,8 +87,8 @@ const StyledGenerateButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 3px 20px;
-  width: 29vh;
+  margin: 3px 10px 5px 20px;
+  width: 62vw;
   font-size: 1.3em;
   background-color: #3b3b3b;
 `

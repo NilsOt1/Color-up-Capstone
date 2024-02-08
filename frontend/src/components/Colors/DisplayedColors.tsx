@@ -1,15 +1,15 @@
 import axios from "axios";
 import {SetStateAction, useEffect, useState} from "react";
-import {SingleColor} from "../types/SingleColor.ts";
-import LockColor from "./LockColor.tsx";
+import {SingleColor} from "../../types/SingleColor.ts";
+import LockColorButton from "../Buttons/LockColorButton.tsx";
 import {useParams} from "react-router";
-import SaveButton from "./SaveButton.tsx";
+import SaveColorPaletteButton from "../Buttons/SaveColorPaletteButton.tsx";
 import styled from "styled-components";
 import HexCode from "./HexCode.tsx";
 import ColorPicker from "./ColorPicker.tsx";
-import GenerateColorsButton from "./GenerateColorsButton.tsx";
-import ColorPositionUp from "./ColorPositionUp.tsx";
-import ColorPositionDown from "./ColorPositionDown.tsx";
+import GenerateColorsButton from "../Buttons/GenerateColorsButton.tsx";
+import ColorPositionUpButton from "../Buttons/ColorPositionUpButton.tsx";
+import ColorPositionDownButton from "../Buttons/ColorPositionDownButton.tsx";
 
 export default function DisplayedColors() {
 
@@ -74,17 +74,17 @@ export default function DisplayedColors() {
                         )}
                     </StyledColorDiv>
                     <StyledArrowContainer>
-                        <ColorPositionUp
+                        <ColorPositionUpButton
                             savedColors={savedColors}
                             handleSetSavedColors={handleSetSavedColors}
                             index={index}/>
-                        <ColorPositionDown
+                        <ColorPositionDownButton
                             savedColors={savedColors}
                             handleSetSavedColors={handleSetSavedColors}
                             index={index}/>
                     </StyledArrowContainer>
                     <StyledLockHexContainer>
-                        <LockColor
+                        <LockColorButton
                             color={color}
                             handleSetLockedColor={handleSetLockedColor}
                             lockedColors={lockedColors}/>
@@ -95,7 +95,7 @@ export default function DisplayedColors() {
             <StyledButtonContainer>
                 <GenerateColorsButton lockedColors={lockedColors} handleSetSavedColors={handleSetSavedColors}
                                       savedColors={savedColors} initialData={initialData}/>
-                <SaveButton colorsToSave={savedColors}/>
+                <SaveColorPaletteButton colorsToSave={savedColors}/>
             </StyledButtonContainer>
         </>
     );
@@ -107,7 +107,7 @@ const StyledDivContainer = styled.div`
 
 const StyledColorDiv = styled.div`
   height: calc(100vh / 5 - 40px);
-  width: 29vh;
+  width: 62vw;
   margin-left: 20px;
   margin-right: 8px;
   transition: background-color 0.5s ease-in;

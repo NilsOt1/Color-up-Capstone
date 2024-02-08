@@ -1,32 +1,31 @@
-import {SingleColor} from "../types/SingleColor.ts";
+import {SingleColor} from "../../types/SingleColor.ts";
 import {SetStateAction} from "react";
-import arrowDown from "../assets/arrowDown.svg"
+import arrowUp from "../../assets/arrowUp.svg"
 import styled from "styled-components";
 
-type ColorPositionDownProps = {
+type ColorPositionUpProps = {
     savedColors: SingleColor[]
     handleSetSavedColors: (color: SetStateAction<SingleColor[]>) => void
     index: number
 }
 
-export default function ColorPositionDown(props: Readonly<ColorPositionDownProps>) {
-    function moveColorDown(index: number) {
-        if (index === 4) return;
+export default function ColorPositionUpButton(props: Readonly<ColorPositionUpProps>) {
+    function moveColorUp(index: number) {
+        if (index === 0) return;
         const newSavedColors = [...props.savedColors];
         const temp = newSavedColors[index];
-        newSavedColors[index] = newSavedColors[index + 1];
-        newSavedColors[index + 1] = temp;
+        newSavedColors[index] = newSavedColors[index - 1];
+        newSavedColors[index - 1] = temp;
         props.handleSetSavedColors(newSavedColors);
     }
 
-    if (props.index === 4) {
+    if (props.index === 0) {
         return null
     } else {
         return (
             <StyledPositionButton
-                onClick={() => moveColorDown(props.index)}>
-                <img alt={"arrow down icon"}
-                     src={arrowDown}/>
+                onClick={() => moveColorUp(props.index)}>
+                <img alt={"arrow up icon"} src={arrowUp}/>
             </StyledPositionButton>
         )
     }

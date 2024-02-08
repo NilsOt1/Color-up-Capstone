@@ -1,5 +1,5 @@
 import {RgbStringColorPicker} from "react-colorful";
-import {SingleColor} from "../types/SingleColor.ts";
+import {SingleColor} from "../../types/SingleColor.ts";
 import {SetStateAction} from "react";
 
 type ColorPickerProps = {

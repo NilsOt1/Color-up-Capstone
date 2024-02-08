@@ -127,13 +127,13 @@ const StyledFormButton = styled.button`
   font-size: 1.3em;
 `
 
-export const StyledFormLabel = styled.label`
+const StyledFormLabel = styled.label`
   display: flex;
   justify-content: center;
   font-size: 1.3em;
 `;
 
-export const StyledForm = styled.form`
+const StyledForm = styled.form`
   display: flex;
   align-items: center;
   flex-direction: column;
