@@ -5,11 +5,11 @@ import styled from "styled-components";
 import {useState} from "react";
 import save from "../../assets/save.svg"
 
-type SaveButtonProps = {
+type SaveColorPaletteButtonProps = {
     colorsToSave: SingleColor[]
 }
 
-export default function SaveColorPaletteButton(props: SaveButtonProps) {
+export default function SaveColorPaletteButton(props: Readonly<SaveColorPaletteButtonProps>) {
 
     const [isSaved, setIsSaved] = useState(false);
 

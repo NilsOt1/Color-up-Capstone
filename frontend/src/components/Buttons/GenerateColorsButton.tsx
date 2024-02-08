@@ -11,7 +11,7 @@ type GenerateColorsButtonProps = {
     savedColors: SingleColor[]
     initialData: SingleColor[]
 }
-export default function GenerateColorsButton(props: GenerateColorsButtonProps) {
+export default function GenerateColorsButton(props: Readonly<GenerateColorsButtonProps>) {
 
     const [showSpinner, setShowSpinner] = useState<boolean>(false)
 

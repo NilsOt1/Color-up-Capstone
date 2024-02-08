@@ -3,12 +3,12 @@ import lockOpen from "../../assets/lockOpen.svg";
 import lockClose from "../../assets/lockClose.svg";
 import styled from "styled-components";
 
-type LockColorProps = {
+type LockColorButtonProps = {
     color: SingleColor
     handleSetLockedColor: (updateColor: SingleColor[]) => void;
     lockedColors: SingleColor[]
 }
-export default function LockColorButton(props: LockColorProps) {
+export default function LockColorButton(props: Readonly<LockColorButtonProps>) {
     function toggleLockColor(color: SingleColor) {
         if (props.lockedColors?.includes(color)) {
 

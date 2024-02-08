@@ -7,7 +7,7 @@ type ColorPickerProps = {
     color:SingleColor
     index:number
 }
-export default function ColorPicker(props:ColorPickerProps) {
+export default function ColorPicker(props:Readonly<ColorPickerProps>) {
 
 
     function handleColorChange(colorString: string, index: number) {

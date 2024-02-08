@@ -4,7 +4,7 @@ import styled from "styled-components";
 type HexCodeProps = {
     color:SingleColor
 }
-export default function HexCode(props:HexCodeProps) {
+export default function HexCode(props:Readonly<HexCodeProps>) {
     function rgbToHex(r: number, g: number, b: number):(string) {
         function toHex(c: number) {
             const hex:string = c.toString(16);
