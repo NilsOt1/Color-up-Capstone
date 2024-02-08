@@ -1,15 +1,15 @@
 import axios from "axios";
 import {useParams} from "react-router";
-import {SingleColor} from "../types/SingleColor.ts";
+import {SingleColor} from "../../types/SingleColor.ts";
 import styled from "styled-components";
 import {useState} from "react";
-import save from "../assets/save.svg"
+import save from "../../assets/save.svg"
 
-type SaveButtonProps = {
+type SaveColorPaletteButtonProps = {
     colorsToSave: SingleColor[]
 }
 
-export default function SaveButton(props: SaveButtonProps) {
+export default function SaveColorPaletteButton(props: Readonly<SaveColorPaletteButtonProps>) {
 
     const [isSaved, setIsSaved] = useState(false);
 
@@ -33,7 +33,6 @@ export default function SaveButton(props: SaveButtonProps) {
             })
             .catch(error => console.log("Error", error))
     }
-
     return (
         <>
             {isSaved ? (
@@ -48,15 +47,16 @@ const StyledSaveColorButton = styled.button`
   font-weight: 100;
   display: flex;
   border: 0.5px solid;
+  width: 20vw;
   font-size: 1.3em;
-  margin-left: 20px;
+  margin-left: 5px;
   padding: 5px 10px;
   background-color: #3B3B3BFF;
 `
 
 const StyledSaveImg = styled.img`
   height: 35px;
-  width: 65px;
+  width: 20vw;
   padding: 0;
   border: 0.5px solid;
   border-radius: 10px;

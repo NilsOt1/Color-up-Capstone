@@ -31,7 +31,7 @@ export default function InfoButton() {
     )
 }
 
-export const StyledInfoText = styled.div`
+const StyledInfoText = styled.div`
   position: absolute;
   top: 40px;
   left: 50%;
@@ -43,7 +43,7 @@ export const StyledInfoText = styled.div`
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `
 
-export const StyledInfoButton = styled.button`
+const StyledInfoButton = styled.button`
   color: #7c7b7b;
   border-radius: 30px;
   margin-top: 9px;

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import logo from "../assets/logo.png";
-import InfoButton from "./InfoButton.tsx";
+import InfoButton from "./Buttons/InfoButton.tsx";
 
 export default function Header() {
     return (
@@ -32,7 +32,7 @@ const StyledTitle = styled.p`
 `
 
 const StyledLogo = styled.img`
-margin-bottom: 2px;
+  margin-bottom: 2px;
   margin-top: 2px;
   height: 45px;
 `
@@ -40,5 +40,5 @@ margin-bottom: 2px;
 const StyledLogoTitleContainer = styled.div`
   display: flex;
   align-items: end;
-margin-left: 120px;
+  margin-left: 120px;
 `

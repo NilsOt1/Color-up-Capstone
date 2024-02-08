@@ -52,7 +52,7 @@ export default function SingleRoom(props: Readonly<SingleRoomProps>) {
     )
 }
 
-export const StyledListItem = styled.li`
+const StyledListItem = styled.li`
   list-style-type: none;
   left: 600px;
 
@@ -63,11 +63,10 @@ export const StyledListItem = styled.li`
   font-size: 1.3em;
 `;
 
-export const StyledRoomLink = styled(Link)`
+const StyledRoomLink = styled(Link)`
   text-decoration: none;
   border: none;
   font-weight: 100;
-  
 `;
 
 export const StyledRoomsContainer = styled.span`
